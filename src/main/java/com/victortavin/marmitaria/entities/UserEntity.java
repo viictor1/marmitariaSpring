@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,11 +33,15 @@ public class UserEntity implements Serializable{
 	
 	private String password;
 	
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private RoleEntity role;
+	
 	public UserEntity() {
 		
 	}
 
-	public UserEntity(Long id, String firstName, String lastName, String cpf, String email, String password) {
+	public UserEntity(Long id, String firstName, String lastName, String cpf, String email, String password, RoleEntity role) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -43,6 +49,7 @@ public class UserEntity implements Serializable{
 		this.cpf = cpf;
 		this.email = email;
 		this.password = password;
+		this.role = role;
 	}
 
 	public Long getId() {
