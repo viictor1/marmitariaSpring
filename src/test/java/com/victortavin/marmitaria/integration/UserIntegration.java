@@ -39,7 +39,7 @@ public class UserIntegration {
 		UserInsertDto dto = new UserInsertDto();
 		dto.setFirstName("Test");
 		dto.setLastName("User");
-		dto.setCpf("10.0321-92");
+		dto.setCpf("104.032.231-92");
 		dto.setEmail("user@test.com");
 		dto.setPassword("123");
 		
@@ -50,7 +50,7 @@ public class UserIntegration {
 	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("10.0321-92"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"));
 	}
 }
