@@ -40,7 +40,7 @@ public class UserIntegration {
 		dto.setFirstName("Test");
 		dto.setLastName("User");
 		dto.setCpf("104.032.231-92");
-		dto.setEmail("user@test.com");
+		dto.setEmail("new@user.com");
 		dto.setPassword("123");
 		
 		mockMvc.perform(MockMvcRequestBuilders.post("/users")
@@ -51,7 +51,7 @@ public class UserIntegration {
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"));
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("new@user.com"));
 	}
 	
 	@Test
@@ -59,31 +59,17 @@ public class UserIntegration {
 		UserInsertDto dto = new UserInsertDto();
 		dto.setFirstName("Test");
 		dto.setLastName("User");
-		dto.setCpf("104.032.231-92");
-		dto.setEmail("user@test.com");
+		dto.setCpf("111.111.111-11");
+		dto.setEmail("user@user.com");
 		dto.setPassword("123");		
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/users")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objMap.writeValueAsString(dto)))
-	            .andExpect(MockMvcResultMatchers.status().isCreated())
-	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"));
 		
 		mockMvc.perform(MockMvcRequestBuilders.post("/users")
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .content(objMap.writeValueAsString(dto)))
 	            .andExpect(MockMvcResultMatchers.status().is(422))
 	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("Validation exception"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Este cpf já existe"));;
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Este cpf já existe"));
 	}
 	
 	@Test
@@ -95,31 +81,11 @@ public class UserIntegration {
 		dto.setEmail("user@test.com");
 		dto.setPassword("123");
 		
-		dto.setFirstName("Test");
-		dto.setLastName("User");
-		dto.setCpf("104.032.231-92");
-		dto.setEmail("user@test.com");
-		dto.setPassword("123");
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/users")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objMap.writeValueAsString(dto)))
-	            .andExpect(MockMvcResultMatchers.status().isCreated())
-	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"));
-		
 		mockMvc.perform(MockMvcRequestBuilders.post("/users")
 	            .contentType(MediaType.APPLICATION_JSON)
 	            .content(objMap.writeValueAsString(dto)))
 	            .andExpect(MockMvcResultMatchers.status().is(422))
 	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("Validation exception"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Este email já existe"));
 	}
