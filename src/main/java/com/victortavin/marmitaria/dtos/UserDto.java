@@ -39,7 +39,7 @@ public class UserDto implements Serializable{
 		this.id = userEntity.getId();
 		this.firstName = userEntity.getFirstName();
 		this.lastName = userEntity.getLastName();
-		this.cpf = userEntity.getLastName();
+		this.cpf = userEntity.getCpf();
 		this.email = userEntity.getEmail();
 	}
 

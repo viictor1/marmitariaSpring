@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victortavin.marmitaria.controllers.UserController;
+import com.victortavin.marmitaria.dtos.UserInsertDto;
+import com.victortavin.marmitaria.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -33,7 +35,7 @@ public class UserIntegration {
 	private final ObjectMapper objMap = new ObjectMapper();
 	
 	@Test
-	public void shouldAddUser() {
+	public void shouldAddUser() throws  Exception {
 		UserInsertDto dto = new UserInsertDto();
 		dto.setFirstName("Test");
 		dto.setLastName("User");
@@ -41,14 +43,14 @@ public class UserIntegration {
 		dto.setEmail("user@test.com");
 		dto.setPassword("123");
 		
-		mockMvc.perform(MockMvcRequestBuilders.post("/user")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objMap.writeValueAsString(dto))
-				.andExpect(MockMvcResultMatchers.status().isCreated())
-				.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.jsonPath("$firstName").value("Teste"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$lastName").value("User"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$cpf").value("10.0321-92"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$email").value("user@test.com")));
+		mockMvc.perform(MockMvcRequestBuilders.post("/users")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(objMap.writeValueAsString(dto)))
+	            .andExpect(MockMvcResultMatchers.status().isCreated())
+	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("10.0321-92"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"));
 	}
 }
