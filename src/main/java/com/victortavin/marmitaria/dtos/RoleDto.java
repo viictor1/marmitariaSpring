@@ -3,6 +3,8 @@ package com.victortavin.marmitaria.dtos;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.victortavin.marmitaria.entities.RoleEntity;
+
 import jakarta.validation.constraints.NotBlank;
 
 public class RoleDto implements Serializable{
@@ -18,10 +20,15 @@ public class RoleDto implements Serializable{
 		
 	}
 
-	public RoleDto(Long id, @NotBlank(message = "Campo é name obrigatório") String name) {
+	public RoleDto(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
+	}
+	
+	public RoleDto(RoleEntity roleEntity) {
+		id = roleEntity.getId();
+		name = roleEntity.getName();
 	}
 
 	public Long getId() {

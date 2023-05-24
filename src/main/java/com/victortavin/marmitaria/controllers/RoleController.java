@@ -7,23 +7,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.victortavin.marmitaria.entities.RoleEntity;
+import com.victortavin.marmitaria.dtos.RoleDto;
 import com.victortavin.marmitaria.service.RoleService;
 
 @RestController
 @RequestMapping(value = "/roles")
 public class RoleController {
 
-	private final RoleService service;
-	
 	@Autowired
-	public RoleController(RoleService RoleService) {
-		this.service = RoleService;
-	}
+	private RoleService service;
 	
 	@PostMapping
-	public ResponseEntity<String> addRole(@RequestBody RoleEntity r) {
-		service.addRole(r);
-		return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
+	public ResponseEntity<RoleDto> addRole(@RequestBody RoleDto roleDto) {
+		roleDto =  service.addRole(roleDto);
+		return ResponseEntity.ok().body(roleDto);
 	}
 }
