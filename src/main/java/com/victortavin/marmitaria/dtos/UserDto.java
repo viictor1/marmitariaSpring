@@ -5,7 +5,9 @@ import java.util.Objects;
 
 import com.victortavin.marmitaria.entities.UserEntity;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public class UserDto implements Serializable{
 
@@ -20,9 +22,11 @@ public class UserDto implements Serializable{
 	private String lastName;
 	
 	@NotBlank(message = "Campo cpf é obrigarório")
+	@Pattern(regexp = "(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})", message = "Este valor não é um cpf")
 	private String cpf;
 	
 	@NotBlank(message = "Campo email é obrigatório")
+	@Email(message = "Esse campo precisa ser um Email")
 	private String email;
 
 	public UserDto(Long id, String firstName, String lastName, String cpf, String email) {

@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.dtos.UserDto;
@@ -16,10 +17,13 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Transactional
-	public UserDto addUser(UserInsertDto userInsert) {
+	public UserDto addUser(UserInsertDto userInsertDto) {
 		UserEntity userEntity = new UserEntity();
-		copyUserInsertDtoToUserEntity(userInsert, userEntity);
+		copyUserInsertDtoToUserEntity(userInsertDto, userEntity);
 		
 		userEntity = repository.save(userEntity);
 		
@@ -27,11 +31,13 @@ public class UserService {
 		
 	}
 	
-	private void copyUserInsertDtoToUserEntity(UserInsertDto userInsert, UserEntity userEntity) {
-		userEntity.setFirstName(userInsert.getFirstName());
-		userEntity.setLastName(userInsert.getLastName());
-		userEntity.setCpf(userInsert.getCpf());
-		userEntity.setEmail(userInsert.getEmail());
-		userEntity.setPassword(userInsert.getPassword());
-		}
+	private void copyUserInsertDtoToUserEntity(UserInsertDto userInsertDto, UserEntity userEntity) {
+		userEntity.setFirstName(userInsertDto.getFirstName());
+		userEntity.setLastName(userInsertDto.getLastName());
+		userEntity.setCpf(userInsertDto.getCpf());
+		userEntity.setEmail(userInsertDto.getEmail());
+		//criptografa a senha
+		userEntity.setPassword(passwordEncoder.encode(userInsertDto.getPassword()));	
+	}
+	
 }
