@@ -21,11 +21,9 @@ public class UserDto implements Serializable{
 	@NotBlank(message = "Campo Last Name é obrigatório")
 	private String lastName;
 	
-	@NotBlank(message = "Campo cpf é obrigarório")
 	@Pattern(regexp = "(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})", message = "Este valor não é um cpf")
 	private String cpf;
 	
-	@NotBlank(message = "Campo email é obrigatório")
 	@Email(message = "Esse campo precisa ser um Email")
 	private String email;
 

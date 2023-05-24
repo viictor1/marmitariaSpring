@@ -1,7 +1,9 @@
 package com.victortavin.marmitaria.dtos;
 
 import com.victortavin.marmitaria.entities.RoleEntity;
+import com.victortavin.marmitaria.service.validation.user.UserInsertValid;
 
+@UserInsertValid
 public class UserInsertDto extends UserDto{
 	private static final long serialVersionUID = 1L;
 

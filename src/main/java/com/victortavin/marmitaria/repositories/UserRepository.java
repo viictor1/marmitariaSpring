@@ -7,5 +7,6 @@ import com.victortavin.marmitaria.entities.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
-
+	UserEntity findByEmail(String email);
+	UserEntity findByCpf(String cpf);
 }
