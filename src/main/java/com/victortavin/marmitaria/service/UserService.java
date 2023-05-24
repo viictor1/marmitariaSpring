@@ -3,8 +3,8 @@ package com.victortavin.marmitaria.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.entities.RoleEntity;
+import com.victortavin.marmitaria.dtos.UserDto;
+import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.UserRepository;
 
@@ -16,18 +16,22 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	/*@Transactional
-	public RoleDto addRole(RoleDto roleDto) {
-		RoleEntity roleEntity = new RoleEntity();
-		copyRoleDtoToRoleEntity(UserInsertDto, UserEntity);
+	@Transactional
+	public UserDto addUser(UserInsertDto userInsert) {
+		UserEntity userEntity = new UserEntity();
+		copyUserInsertDtoToUserEntity(userInsert, userEntity);
 		
-		roleEntity = repository.save(roleEntity);
+		userEntity = repository.save(userEntity);
 		
-		return new RoleDto(roleEntity);
+		return new UserDto(userEntity);
 		
 	}
 	
-	private void copyUserInsertDtoToUserEntity(UserInsertoDto userInsert, UserEntity userEntity) {
-		userEntity.setFirstName(userInsertDto.getFirstName());
-	}*/
+	private void copyUserInsertDtoToUserEntity(UserInsertDto userInsert, UserEntity userEntity) {
+		userEntity.setFirstName(userInsert.getFirstName());
+		userEntity.setLastName(userInsert.getLastName());
+		userEntity.setCpf(userInsert.getCpf());
+		userEntity.setEmail(userInsert.getEmail());
+		userEntity.setPassword(userInsert.getPassword());
+		}
 }

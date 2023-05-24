@@ -3,6 +3,8 @@ package com.victortavin.marmitaria.dtos;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.victortavin.marmitaria.entities.UserEntity;
+
 import jakarta.validation.constraints.NotBlank;
 
 public class UserDto implements Serializable{
@@ -30,6 +32,15 @@ public class UserDto implements Serializable{
 		this.lastName = lastName;
 		this.cpf = cpf;
 		this.email = email;
+	}
+	
+	public UserDto(UserEntity userEntity) {
+		super();
+		this.id = userEntity.getId();
+		this.firstName = userEntity.getFirstName();
+		this.lastName = userEntity.getLastName();
+		this.cpf = userEntity.getLastName();
+		this.email = userEntity.getEmail();
 	}
 
 	public UserDto() {
