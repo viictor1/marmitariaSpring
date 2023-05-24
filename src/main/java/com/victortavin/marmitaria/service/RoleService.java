@@ -18,7 +18,8 @@ public class RoleService {
 	}
 	
 	@Transactional
-	public void addRole(RoleEntity r) {
-		repository.save(r);
+	public RoleEntity addRole(RoleEntity r) {
+		r = repository.save(r);
+		return r;
 	}
 }

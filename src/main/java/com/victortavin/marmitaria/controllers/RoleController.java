@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,8 @@ public class RoleController {
 	}
 	
 	@PostMapping
-	public void addRole(@RequestBody RoleEntity r) {
+	public ResponseEntity<String> addRole(@RequestBody RoleEntity r) {
 		service.addRole(r);
+		return ResponseEntity.ok().body("Usuário cadastrado com sucesso!");
 	}
 }
