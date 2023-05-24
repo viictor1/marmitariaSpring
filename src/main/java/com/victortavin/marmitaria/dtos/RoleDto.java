@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.victortavin.marmitaria.entities.RoleEntity;
+import com.victortavin.marmitaria.service.validation.role.RoleInsertValid;
 
 import jakarta.validation.constraints.NotBlank;
 
+@RoleInsertValid
 public class RoleDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
