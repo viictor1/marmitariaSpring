@@ -53,4 +53,6 @@ public class UserIntegration {
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("104.032.231-92"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@test.com"));
 	}
+	
+	
 }

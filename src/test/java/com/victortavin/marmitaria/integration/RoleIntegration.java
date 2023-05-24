@@ -63,5 +63,19 @@ public class RoleIntegration {
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Este nome já existe"));
 	}
 	
+	@Test
+	public void shouldThrowNameIsMandatory() throws Exception {		
+		RoleDto roleDto = new RoleDto();
+	    roleDto.setName("");
+
+	    mockMvc.perform(MockMvcRequestBuilders.post("/roles")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(objMap.writeValueAsString(roleDto)))
+	            .andExpect(MockMvcResultMatchers.status().is(422))
+	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("Validation exception"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0].message").value("Campo name é obrigatório"));
+	}
+	
 	
 }
