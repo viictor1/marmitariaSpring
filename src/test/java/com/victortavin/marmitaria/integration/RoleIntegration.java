@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victortavin.marmitaria.controllers.RoleController;
-import com.victortavin.marmitaria.entities.RoleEntity;
+import com.victortavin.marmitaria.dtos.RoleDto;
 import com.victortavin.marmitaria.service.RoleService;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,14 +36,16 @@ public class RoleIntegration {
 	
 	@Test
 	public void shouldAddRole() throws Exception {		
-		RoleEntity role = new RoleEntity();
-		role.setName("teste");
-		
-		mockMvc.perform(MockMvcRequestBuilders.post("/roles")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objMap.writeValueAsString(role)))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.content().string("Usuário cadastrado com sucesso!"));
+		RoleDto roleDto = new RoleDto();
+	    roleDto.setName("teste");
+
+	    mockMvc.perform(MockMvcRequestBuilders.post("/roles")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(objMap.writeValueAsString(roleDto)))
+	            .andExpect(MockMvcResultMatchers.status().isCreated())
+	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("teste"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
 		
 	}
 	
