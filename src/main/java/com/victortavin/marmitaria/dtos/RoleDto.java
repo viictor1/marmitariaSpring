@@ -1,33 +1,24 @@
-package com.victortavin.marmitaria.entities;
+package com.victortavin.marmitaria.dtos;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "roles")
-public class RoleEntity implements Serializable{
+public class RoleDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique = true)
+	@NotBlank(message = "Campo é name obrigatório")
 	private String name;
 	
-	public RoleEntity() {
+	public RoleDto() {
 		
 	}
 
-	public RoleEntity(Long id, String name) {
+	public RoleDto(Long id, @NotBlank(message = "Campo é name obrigatório") String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -62,7 +53,8 @@ public class RoleEntity implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RoleEntity other = (RoleEntity) obj;
+		RoleDto other = (RoleDto) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 }

@@ -100,6 +100,14 @@ public class UserEntity implements Serializable{
 		this.password = password;
 	}
 
+	public RoleEntity getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEntity role) {
+		this.role = role;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
