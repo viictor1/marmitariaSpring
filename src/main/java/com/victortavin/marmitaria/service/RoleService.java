@@ -15,6 +15,8 @@ public class RoleService {
 	@Autowired
 	private RoleRepository repository;
 	
+	//criei o dto porque no padrão a entity não pode ter contato com as outras camadas 
+	//além disso a validação é feita no dto
 	@Transactional
 	public RoleDto addRole(RoleDto roleDto) {
 		RoleEntity roleEntity = new RoleEntity();
@@ -26,6 +28,7 @@ public class RoleService {
 		
 	}
 	
+	//isso é só frescura do livro de código limpo que eu to lendo kkkkk
 	private void copyRoleDtoToRoleEntity(RoleDto roleDto, RoleEntity roleEntity) {
 		roleEntity.setName(roleDto.getName());
 	}
