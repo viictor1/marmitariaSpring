@@ -3,9 +3,9 @@ package com.victortavin.marmitaria.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.victortavin.marmitaria.entities.RoleEntity;
+import com.victortavin.marmitaria.entities.UserEntity;
 
 @Repository
-public interface RoleRepository extends JpaRepository<RoleEntity, Long>{
-	RoleEntity findByName(String name);
+public interface UserRepository extends JpaRepository<UserEntity, Long>{
+
 }
