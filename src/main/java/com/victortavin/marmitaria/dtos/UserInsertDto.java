@@ -29,5 +29,5 @@ public class UserInsertDto extends UserDto{
 	public void setRole(RoleEntity role) {
 		this.role = role;
 	}
-
+	
 }

@@ -11,13 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
 import com.victortavin.marmitaria.service.UserService;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,22 +35,17 @@ public class UserIntegration {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	private final ObjectMapper objMap = new ObjectMapper();
-	
 	@Test
-	public void shouldAddUser() throws  Exception {
-		UserInsertDto dto = new UserInsertDto();
-		dto.setFirstName("Test");
-		dto.setLastName("User");
-		dto.setCpf("111.111.111-00");
-		dto.setEmail("user@user.com");
-		dto.setPassword("123");		
-		
+	public void shouldAddUser() throws  Exception {		
 		mockMvc.perform(MockMvcRequestBuilders.post("/users")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objMap.writeValueAsString(dto)))
+				.contentType(MediaType.APPLICATION_JSON)
+	            .content(
+			            "{\"firstName\": \"Test\","
+		        		+"\"lastName\": \"User\","
+		        		+"\"cpf\": \"111.111.111-00\","
+		        		+"\"email\": \"user@user.com\","
+		        		+"\"password\": \"123\"}"))
 	            .andExpect(MockMvcResultMatchers.status().isCreated())
-	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("111.111.111-00"))
@@ -58,17 +53,15 @@ public class UserIntegration {
 	}
 	
 	@Test
-	public void shouldThrowCpfAlreadyExists() throws  Exception {
-		UserInsertDto dto = new UserInsertDto();
-		dto.setFirstName("Test");
-		dto.setLastName("User");
-		dto.setCpf("111.111.111-11");
-		dto.setEmail("user@user.com");
-		dto.setPassword("123");		
-		
+	public void shouldThrowCpfAlreadyExists() throws  Exception {		
 		mockMvc.perform(MockMvcRequestBuilders.post("/users")
 	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objMap.writeValueAsString(dto)))
+	            .content(
+			            "{\"firstName\": \"Test\","
+		        		+"\"lastName\": \"User\","
+		        		+"\"cpf\": \"111.111.111-11\","
+		        		+"\"email\": \"user@email.com\","
+		        		+"\"password\": \"123\"}"))
 	            .andExpect(MockMvcResultMatchers.status().is(422))
 	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("Validation exception"))
@@ -77,16 +70,14 @@ public class UserIntegration {
 	
 	@Test
 	public void shouldThrowEmailAlreadyExists() throws  Exception {
-		UserInsertDto dto = new UserInsertDto();
-		dto.setFirstName("Test");
-		dto.setLastName("User");
-		dto.setCpf("104.032.231-99");
-		dto.setEmail("user@test.com");
-		dto.setPassword("123");
-		
 		mockMvc.perform(MockMvcRequestBuilders.post("/users")
 	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(objMap.writeValueAsString(dto)))
+	            .content(
+	    	            "{\"firstName\": \"Test\","
+	            		+"\"lastName\": \"User\","
+	            		+"\"cpf\": \"104.032.231-99\","
+	            		+"\"email\": \"user@test.com\","
+	            		+"\"password\": \"123\"}"))
 	            .andExpect(MockMvcResultMatchers.status().is(422))
 	            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("Validation exception"))
