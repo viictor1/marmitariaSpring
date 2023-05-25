@@ -15,7 +15,7 @@ public class RoleDto implements Serializable{
 	
 	private Long id;
 	
-	@NotBlank(message = "Campo é name obrigatório")
+	@NotBlank(message = "Campo name é obrigatório")
 	private String name;
 	
 	public RoleDto() {

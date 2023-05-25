@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.entities.UserEntity;
+import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -18,12 +19,18 @@ public class UserService {
 	private UserRepository repository;
 	
 	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Transactional
 	public UserDto addUser(UserInsertDto userInsertDto) {
 		UserEntity userEntity = new UserEntity();
 		copyUserInsertDtoToUserEntity(userInsertDto, userEntity);
+		
+		//Adcionando a role de user na hora de criar
+		userEntity.setRole(roleRepository.findByName("User"));
 		
 		userEntity = repository.save(userEntity);
 		
@@ -37,7 +44,7 @@ public class UserService {
 		userEntity.setCpf(userInsertDto.getCpf());
 		userEntity.setEmail(userInsertDto.getEmail());
 		//criptografa a senha
-		userEntity.setPassword(passwordEncoder.encode(userInsertDto.getPassword()));	
+		userEntity.setPassword(passwordEncoder.encode(userInsertDto.getPassword()));		
 	}
 	
 }
