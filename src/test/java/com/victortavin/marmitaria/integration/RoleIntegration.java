@@ -1,10 +1,6 @@
 package com.victortavin.marmitaria.integration;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,20 +10,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victortavin.marmitaria.controllers.RoleController;
 import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.service.RoleService;
 
-@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RoleIntegration {
-
-	@Mock
-	private RoleService service;
-	
-	@InjectMocks
-	private RoleController roleController;
 	
 	@Autowired
 	private MockMvc mockMvc;
