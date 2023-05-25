@@ -27,15 +27,21 @@ public class UserService {
 	@Transactional
 	public UserDto addUser(UserInsertDto userInsertDto) {
 		UserEntity userEntity = new UserEntity();
-		copyUserInsertDtoToUserEntity(userInsertDto, userEntity);
 		
-		//Adcionando a role de user na hora de criar
-		userEntity.setRole(roleRepository.findByName("User"));
+		standardizeCpf(userInsertDto);
+		copyUserInsertDtoToUserEntity(userInsertDto, userEntity);
+		addRoleInUser(userEntity);
 		
 		userEntity = repository.save(userEntity);
 		
 		return new UserDto(userEntity);
 		
+	}
+	
+	private void standardizeCpf(UserInsertDto userInsertDto) {
+		String cpf = userInsertDto.getCpf();
+		cpf = cpf.replaceAll("[^0-9]", "");
+		userInsertDto.setCpf(cpf);
 	}
 	
 	private void copyUserInsertDtoToUserEntity(UserInsertDto userInsertDto, UserEntity userEntity) {
@@ -45,6 +51,10 @@ public class UserService {
 		userEntity.setEmail(userInsertDto.getEmail());
 		//criptografa a senha
 		userEntity.setPassword(passwordEncoder.encode(userInsertDto.getPassword()));		
+	}
+	
+	private void addRoleInUser(UserEntity userEntity) {
+		userEntity.setRole(roleRepository.findByName("User"));
 	}
 	
 }

@@ -27,16 +27,22 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
 	public boolean isValid(UserInsertDto userInsertDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 		
+		String cpf = userInsertDto.getCpf();
+		cpf = cpf.replaceAll("[^0-9]", "");
+		userInsertDto.setCpf(cpf);
+		
 		UserEntity userEntityEmail = userRepository.findByEmail(userInsertDto.getEmail());
 		
 		if(userEntityEmail != null) {
 			list.add(new FieldMessage("email", "Este email já existe"));
 		}
 		
+		
 		UserEntity userEntityCpf = userRepository.findByCpf(userInsertDto.getCpf());
 		
 		if(userEntityCpf != null) {
 			list.add(new FieldMessage("cpf", "Este cpf já existe"));
+		
 		}
 		
 		for (FieldMessage e : list) {
