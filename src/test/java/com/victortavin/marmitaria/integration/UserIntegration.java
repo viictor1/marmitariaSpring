@@ -48,7 +48,7 @@ public class UserIntegration {
 	            .andExpect(MockMvcResultMatchers.status().isCreated())
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Test"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("User"))
-	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("111.111.111-00"))
+	            .andExpect(MockMvcResultMatchers.jsonPath("$.cpf").value("11111111100"))
 	            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@user.com"));
 	}
 	
@@ -59,7 +59,7 @@ public class UserIntegration {
 	            .content(
 			            "{\"firstName\": \"Test\","
 		        		+"\"lastName\": \"User\","
-		        		+"\"cpf\": \"111.111.111-11\","
+		        		+"\"cpf\": \"11111111111\","
 		        		+"\"email\": \"user@email.com\","
 		        		+"\"password\": \"123\"}"))
 	            .andExpect(MockMvcResultMatchers.status().is(422))
