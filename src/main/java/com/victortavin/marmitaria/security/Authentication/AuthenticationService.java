@@ -1,6 +1,8 @@
 package com.victortavin.marmitaria.security.Authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class AuthenticationService {
 	private final JwtService jwtService = new JwtService();
 	
 	private final PasswordEncoder passwordEncoder = null;
+	
+	private final AuthenticationManager authenticationManager = null;
 
 	public AuthenticationResponse register(RegisterRequest request) {
 		UserEntity user = new UserEntity();
@@ -37,6 +41,11 @@ public class AuthenticationService {
 	}
 
 	public AuthenticationResponse login(AuthenticationRequest request) {
-		return null;
+		authenticationManager.authenticate
+		(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+		var user = userRepository.findByEmail(request.getEmail());
+		
+		var jwtToken = jwtService.generateToken(user);
+		return new AuthenticationResponse(jwtToken);
 	}
 }
