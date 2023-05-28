@@ -12,11 +12,13 @@ public class AuthenticationController {
 
 	@PostMapping("/register")
 	public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+		return null;
 		
 	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
+		return null;
 		
 	}
 }
