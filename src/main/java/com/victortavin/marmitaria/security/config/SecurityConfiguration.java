@@ -18,14 +18,16 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/register", "/login").permitAll()
+            .requestMatchers("/auth").permitAll()
             .requestMatchers("/roles").hasRole("ADMIN")
         )
         .sessionManagement(sessionManagement -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
-        .authenticationProvider(authenticationProvider())
+        .authenticationProvider(authenticationProvider)
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+		
+		return http.build();
 	}
 
 }
