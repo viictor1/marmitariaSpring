@@ -7,4 +7,14 @@ public class AuthenticationResponse {
 	public AuthenticationResponse(String jwtToken) {
 		this.token = jwtToken;
 	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
+	
 }

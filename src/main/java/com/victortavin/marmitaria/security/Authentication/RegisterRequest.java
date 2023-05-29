@@ -3,6 +3,7 @@ package com.victortavin.marmitaria.security.Authentication;
 import com.victortavin.marmitaria.entities.RoleEntity;
 
 public class RegisterRequest {
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String cpf;
@@ -45,6 +46,12 @@ public class RegisterRequest {
 	}
 	public void setRole(RoleEntity role) {
 		this.role = role;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	
