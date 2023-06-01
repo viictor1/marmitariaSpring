@@ -1,6 +1,12 @@
 package com.victortavin.marmitaria.dtos;
 
-public class TokenDto {
+import java.io.Serializable;
+
+public class TokenDto implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String token;
 	
 	public TokenDto() {
