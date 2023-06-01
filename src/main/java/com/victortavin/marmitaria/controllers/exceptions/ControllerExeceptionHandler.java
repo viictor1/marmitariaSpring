@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,8 +31,21 @@ public class ControllerExeceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<StandardError> badCredentials(BadCredentialsException e, HttpServletRequest request){
+		StandardError err = new StandardError();
+		
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.UNAUTHORIZED.value());
+		err.setError("invalid credentials");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
+	}
+	
 	@ExceptionHandler(UsernameNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(UsernameNotFoundException e, HttpServletRequest request){
+	public ResponseEntity<StandardError> UsernameNotFound(UsernameNotFoundException e, HttpServletRequest request){
 		StandardError err = new StandardError();
 		
 		err.setTimestamp(Instant.now());
