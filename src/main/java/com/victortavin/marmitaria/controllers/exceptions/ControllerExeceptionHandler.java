@@ -18,6 +18,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ControllerExeceptionHandler {
 	
+	/*
+	 * TokenExpiredException
+	 * 
+	 * */
+	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request){
 		StandardError err = new StandardError();

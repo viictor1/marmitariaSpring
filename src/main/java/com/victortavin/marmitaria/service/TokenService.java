@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.victortavin.marmitaria.entities.UserEntity;
 
 @Service
@@ -35,7 +36,19 @@ public class TokenService {
 	private Instant dataExpiracao() {
 		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
 	}
-	
 
-
+	public String getSubject(String token) {
+		try {
+			var algorithm = Algorithm.HMAC256(secret);
+			return JWT.require(algorithm)
+		        .withIssuer("Api marmitaria")
+		        .build()
+		        .verify(token)
+		        .getSubject();
+		        
+		} catch (JWTVerificationException exception){
+		    // Invalid signature/claims
+			throw new RuntimeException(exception);
+		}
+	}
 }
