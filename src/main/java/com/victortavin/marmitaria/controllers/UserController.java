@@ -37,7 +37,7 @@ public class UserController {
 	@Autowired
 	private TokenService tokenService;
 	
-	@PostMapping
+	@PostMapping(value="/cadastro")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserInsertDto userInsertDto) {
 		UserDto userDto = service.addUser(userInsertDto);
 			
@@ -48,7 +48,7 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/login")
-	public ResponseEntity<TokenDto> loginUser(UserLoginDto userLoginDto){
+	public ResponseEntity<TokenDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto){
 		
 		var authenticationToken = new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(), userLoginDto.getPassword());
 		var authentication = authenticationManager.authenticate(authenticationToken);

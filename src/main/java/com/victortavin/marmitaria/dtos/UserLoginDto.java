@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import com.victortavin.marmitaria.entities.UserEntity;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UserLoginDto implements Serializable{
 	
 	/**
@@ -11,7 +14,11 @@ public class UserLoginDto implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@Email(message = "este campo precisa ser um email")
+	@NotBlank(message = "campo email é obrigatório")
 	private String email;
+	
+	@NotBlank(message = "campo password é obrigatório")
 	private String password;
 	
 	public UserLoginDto() {

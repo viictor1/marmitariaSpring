@@ -3,6 +3,9 @@ package com.victortavin.marmitaria.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
 	@Autowired
 	private UserRepository repository;
@@ -50,6 +53,16 @@ public class UserService {
 		return new UserDto(userEntity);
 	}
 	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserEntity user = repository.findByEmail(username);
+		
+		if(user == null) {
+			throw new UsernameNotFoundException("Email not found");
+		}
+		return user;
+	}
+	
 	private void standardizeCpf(UserInsertDto userInsertDto) {
 		String cpf = userInsertDto.getCpf();
 		cpf = cpf.replaceAll("[^0-9]", "");
@@ -68,7 +81,5 @@ public class UserService {
 	private void addRoleInUser(UserEntity userEntity) {
 		userEntity.setRole(roleRepository.findByName("User"));
 	}
-
-
 	
 }
