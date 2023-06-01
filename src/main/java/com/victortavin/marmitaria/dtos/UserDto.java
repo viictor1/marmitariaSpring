@@ -3,6 +3,7 @@ package com.victortavin.marmitaria.dtos;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 
 import jakarta.validation.constraints.Email;
@@ -26,16 +27,19 @@ public class UserDto implements Serializable{
 	
 	@Email(message = "Esse campo precisa ser um Email")
 	private String email;
+	
+	private RoleEntity role;
 
-	public UserDto(Long id, String firstName, String lastName, String cpf, String email) {
+	public UserDto(Long id, String firstName,String lastName, String cpf,String email, RoleEntity role) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.cpf = cpf;
 		this.email = email;
+		this.role = role;
 	}
-	
+
 	public UserDto(UserEntity userEntity) {
 		super();
 		this.id = userEntity.getId();
@@ -43,6 +47,7 @@ public class UserDto implements Serializable{
 		this.lastName = userEntity.getLastName();
 		this.cpf = userEntity.getCpf();
 		this.email = userEntity.getEmail();
+		this.role = userEntity.getRole();
 	}
 
 	public UserDto() {
@@ -92,6 +97,15 @@ public class UserDto implements Serializable{
 	@Override
 	public int hashCode() {
 		return Objects.hash(cpf, email, firstName, id, lastName);
+	}
+	
+	
+	public RoleEntity getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEntity role) {
+		this.role = role;
 	}
 
 	@Override
