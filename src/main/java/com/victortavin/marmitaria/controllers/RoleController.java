@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.RoleDto;
 import com.victortavin.marmitaria.service.RoleService;
-import com.victortavin.marmitaria.service.validation.user.UserAdminValidator;
+import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class RoleController {
 	private RoleService service;
 	
 	@Autowired
-	UserAdminValidator validator;
+	UserAuthorityValidator validator;
 	
 	@PostMapping
 	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleDto roleDto, HttpServletRequest request) {

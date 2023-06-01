@@ -12,7 +12,7 @@ import com.victortavin.marmitaria.service.exceptions.ForbiddenException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class UserAdminValidator {
+public class UserAuthorityValidator {
 	
 	@Autowired
 	private TokenService tokenService;
@@ -23,7 +23,15 @@ public class UserAdminValidator {
 	@Autowired
 	TokenFilter filter;
 
-	public boolean validateAdmin(HttpServletRequest request) {
+	public void validateAdmin(HttpServletRequest request) {
+		UserEntity user = validateLogado(request);
+		
+		if(!user.getRole().getName().equals("Admin")) {
+			throw new ForbiddenException("Usuário não é um administrador");
+		}	
+	}
+	
+	public UserEntity validateLogado(HttpServletRequest request) {
 		var token = filter.recoverToken(request);
 		UserEntity user = null;
 		
@@ -32,11 +40,11 @@ public class UserAdminValidator {
 			user = userRepository.findByEmail(subjetc);
 		}
 		
-		if(user == null || !user.getRole().getName().equals("Admin")) {
-			throw new ForbiddenException("Access denied!");
+		if(user == null) {
+			throw new ForbiddenException("Usuário não está logado");
 		}
 		
-		return true;
-		
+		return user;
+			
 	}
 }
