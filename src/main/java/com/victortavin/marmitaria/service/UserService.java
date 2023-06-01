@@ -42,7 +42,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDto findByid(Long id) {
+	public UserDto findByidUser(Long id) {
 		Optional<UserEntity> userOptional = repository.findById(id);
 		
 		UserEntity userEntity = userOptional.orElseThrow(()-> new ResourceNotFoundException("Id not found: " + id));
