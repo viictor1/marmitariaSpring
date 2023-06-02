@@ -32,19 +32,14 @@ public class UserAuthorityValidator {
 	}
 	
 	public UserEntity validateLogado(HttpServletRequest request) {
-		var token = filter.recoverToken(request);
-		UserEntity user = null;
-		
-		if(token != null) {
+		try {
+			var token = filter.recoverToken(request);
 			String subjetc = tokenService.getSubject(token);
-			user = userRepository.findByEmail(subjetc);
-		}
+			UserEntity user = userRepository.findByEmail(subjetc);
+			return user;
 		
-		if(user == null) {
-			throw new ForbiddenException("Usuário não está logado");
-		}
-		
-		return user;
-			
+		} catch (Exception e) {
+			throw new ForbiddenException("Usuário não está logado");			
+		}	
 	}
 }
