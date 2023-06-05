@@ -1,6 +1,8 @@
 package com.victortavin.marmitaria.service.validation.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.entities.UserEntity;
@@ -23,12 +25,13 @@ public class UserAuthorityValidator {
 	@Autowired
 	TokenFilter filter;
 
-	public void validateAdmin(HttpServletRequest request) {
-		UserEntity user = validateLogado(request);
-		
-		if(!user.getRole().getName().equals("Admin")) {
-			throw new ForbiddenException("Usuário não é um administrador");
-		}	
+	public void validateAdmin() {
+		for (GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+			 if(!authority.getAuthority().equals("Admin")) {
+				 throw new ForbiddenException("Usuário não é um administrador");
+			 }
+		}
+			
 	}
 	
 	public UserEntity validateLogado(HttpServletRequest request) {

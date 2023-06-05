@@ -1,6 +1,5 @@
 package com.victortavin.marmitaria.controllers.exceptions;
 
-import java.nio.file.AccessDeniedException;
 import java.time.Instant;
 
 import org.springframework.http.HttpStatus;

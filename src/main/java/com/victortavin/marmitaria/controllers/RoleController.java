@@ -29,7 +29,7 @@ public class RoleController {
 	
 	@PostMapping
 	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleDto roleDto, HttpServletRequest request) {
-		validator.validateAdmin(request);
+		validator.validateAdmin();
 		
 		roleDto = service.addRole(roleDto);
 		

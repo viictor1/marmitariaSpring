@@ -40,13 +40,13 @@ public class TokenFilter extends OncePerRequestFilter{
 			user = userRepository.findByEmail(subjetc);
 			
 			if(user != null) {
-				var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+				var authentication = new UsernamePasswordAuthenticationToken(user, user.getRole().getName(), user.getAuthorities());
 				
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-			UserEntity user = userRepository.findByEmail(subjetc);
+			UserEntity userEntity = userRepository.findByEmail(subjetc);
 			
-			var authentication = new UsernamePasswordAuthenticationToken(user, user.getId(), user.getAuthorities());
+			var authentication = new UsernamePasswordAuthenticationToken(userEntity, userEntity.getId(), userEntity.getAuthorities());
 			 SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 		}

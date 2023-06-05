@@ -22,6 +22,7 @@ import com.victortavin.marmitaria.dtos.UserLoginDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.service.TokenService;
 import com.victortavin.marmitaria.service.UserService;
+import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
 import jakarta.validation.Valid;
 
@@ -37,6 +38,9 @@ public class UserController {
 	
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UserAuthorityValidator validator;
 	
 	@PostMapping(value="/cadastro")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserInsertDto userInsertDto) {
@@ -60,8 +64,8 @@ public class UserController {
 	}
 	
 	@GetMapping(value= "/{id}")
-	@Secured("Admin")
 	public ResponseEntity<UserDto> findByIdUser(@PathVariable Long id){
+		validator.validateAdmin();
 		UserDto userDto = service.findByidUser(id);
 		
 		return ResponseEntity.ok().body(userDto);
