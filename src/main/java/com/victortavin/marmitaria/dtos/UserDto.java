@@ -3,6 +3,7 @@ package com.victortavin.marmitaria.dtos;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 
@@ -29,8 +30,10 @@ public class UserDto implements Serializable{
 	private String email;
 	
 	private RoleEntity role;
+	
+	private BalanceEntity balance;
 
-	public UserDto(Long id, String firstName,String lastName, String cpf,String email, RoleEntity role) {
+	public UserDto(Long id, String firstName,String lastName, String cpf,String email, RoleEntity role, BalanceEntity balance) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -38,6 +41,7 @@ public class UserDto implements Serializable{
 		this.cpf = cpf;
 		this.email = email;
 		this.role = role;
+		this.balance = balance;
 	}
 
 	public UserDto(UserEntity userEntity) {
@@ -48,6 +52,7 @@ public class UserDto implements Serializable{
 		this.cpf = userEntity.getCpf();
 		this.email = userEntity.getEmail();
 		this.role = userEntity.getRole();
+		this.balance = userEntity.getBalance();
 	}
 
 	public UserDto() {
@@ -93,11 +98,6 @@ public class UserDto implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(cpf, email, firstName, id, lastName);
-	}
 	
 	
 	public RoleEntity getRole() {
@@ -106,6 +106,19 @@ public class UserDto implements Serializable{
 
 	public void setRole(RoleEntity role) {
 		this.role = role;
+	}
+
+	public BalanceEntity getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BalanceEntity balance) {
+		this.balance = balance;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cpf, email, firstName, id, lastName);
 	}
 
 	@Override

@@ -3,15 +3,18 @@ package com.victortavin.marmitaria.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.victortavin.marmitaria.dtos.BalanceDto;
 import com.victortavin.marmitaria.dtos.UserDto;
-import com.victortavin.marmitaria.dtos.UserInsertDto;
+import com.victortavin.marmitaria.dtos.UserInsertDto;import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
+import com.victortavin.marmitaria.repositories.BalanceRepository;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
@@ -30,6 +33,9 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private BalanceService balanceService;
+	
 	@Transactional
 	public UserDto addUser(UserInsertDto userInsertDto) {
 		UserEntity userEntity = new UserEntity();
@@ -37,6 +43,7 @@ public class UserService implements UserDetailsService{
 		standardizeCpf(userInsertDto);
 		copyUserInsertDtoToUserEntity(userInsertDto, userEntity);
 		addRoleInUser(userEntity);
+		addBalanceInUser(userEntity);
 		
 		userEntity = repository.save(userEntity);
 		
@@ -47,6 +54,8 @@ public class UserService implements UserDetailsService{
 	@Transactional
 	public UserDto findByidUser(Long id) {
 		Optional<UserEntity> userOptional = repository.findById(id);
+		
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
 		
 		UserEntity userEntity = userOptional.orElseThrow(()-> new ResourceNotFoundException("Id not found: " + id));
 		
@@ -80,6 +89,16 @@ public class UserService implements UserDetailsService{
 	
 	private void addRoleInUser(UserEntity userEntity) {
 		userEntity.setRole(roleRepository.findByName("User"));
+	}
+	
+	private void addBalanceInUser(UserEntity userEntity) {
+		BalanceDto balanceDto = balanceService.newBalance();
+		
+		BalanceEntity balanceEntity = new BalanceEntity(balanceDto.getId(), balanceDto.getValue());
+		
+		userEntity.setBalance(balanceEntity);
+		System.out.println(userEntity.getBalance().getId());
+	
 	}
 	
 }

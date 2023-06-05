@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.UserRepository;
 import com.victortavin.marmitaria.service.TokenService;
 
@@ -32,9 +33,10 @@ public class TokenFilter extends OncePerRequestFilter{
 		
 		if(token != null) {
 			String subjetc = tokenService.getSubject(token);
-			var user = userRepository.findByEmail(subjetc);
+			UserEntity user = userRepository.findByEmail(subjetc);
 			
-			var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+			var authentication = new UsernamePasswordAuthenticationToken(user, user.getId(), user.getAuthorities());
+			 SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
