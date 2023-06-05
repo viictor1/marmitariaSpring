@@ -34,13 +34,19 @@ public class TokenFilter extends OncePerRequestFilter{
 		
 		UserEntity user = null;
 		
+		   if (token == null) {
+		        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Define o status de resposta como 401 (Unauthorized)
+		        response.getWriter().write("Token não fornecido"); // Envia uma mensagem de erro ao cliente
+		        return;
+		    }
+		
 		if(token != null) {
 			String subjetc = tokenService.getSubject(token);
 
 			user = userRepository.findByEmail(subjetc);
 			
 			if(user != null) {
-				var authentication = new UsernamePasswordAuthenticationToken(user, user.getRole().getName(), user.getAuthorities());
+				var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 				
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
