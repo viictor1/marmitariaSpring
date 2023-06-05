@@ -36,6 +36,7 @@ public class TokenFilter extends OncePerRequestFilter{
 		
 		if(token != null) {
 			String subjetc = tokenService.getSubject(token);
+
 			user = userRepository.findByEmail(subjetc);
 			
 			if(user != null) {
@@ -43,6 +44,10 @@ public class TokenFilter extends OncePerRequestFilter{
 				
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
+			UserEntity user = userRepository.findByEmail(subjetc);
+			
+			var authentication = new UsernamePasswordAuthenticationToken(user, user.getId(), user.getAuthorities());
+			 SecurityContextHolder.getContext().setAuthentication(authentication);
 			
 		}
 		

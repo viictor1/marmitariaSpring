@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -43,11 +44,15 @@ public class UserEntity implements Serializable, UserDetails{
 	@JoinColumn(name = "role_id")
 	private RoleEntity role;
 	
+	@OneToOne
+	@JoinColumn(name = "balance_id")
+	private BalanceEntity balance;
+	
 	public UserEntity() {
 		
 	}
 
-	public UserEntity(Long id, String firstName, String lastName, String cpf, String email, String password, RoleEntity role) {
+	public UserEntity(Long id, String firstName, String lastName, String cpf, String email, String password, RoleEntity role, BalanceEntity balance) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -56,6 +61,7 @@ public class UserEntity implements Serializable, UserDetails{
 		this.email = email;
 		this.password = password;
 		this.role = role;
+		this.balance = balance;
 	}
 
 	public Long getId() {
@@ -112,6 +118,14 @@ public class UserEntity implements Serializable, UserDetails{
 
 	public void setRole(RoleEntity role) {
 		this.role = role;
+	}
+
+	public BalanceEntity getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BalanceEntity balance) {
+		this.balance = balance;
 	}
 
 	@Override
