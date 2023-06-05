@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.victortavin.marmitaria.service.exceptions.ForbiddenException;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,19 @@ public class ControllerExeceptionHandler {
 	 * TokenExpiredException
 	 * 
 	 * */
+
+	@ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<StandardError> accessDenied(ForbiddenException e, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.FORBIDDEN.value());
+        err.setError("Access Denied");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+	
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request){
@@ -78,5 +92,6 @@ public class ControllerExeceptionHandler {
 		}
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(validationError);
-	}
+	}	
+	
 }

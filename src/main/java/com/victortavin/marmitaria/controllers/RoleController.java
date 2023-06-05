@@ -12,25 +12,30 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.RoleDto;
 import com.victortavin.marmitaria.service.RoleService;
+import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/roles")
 public class RoleController {
 
-	//só por o autowired em cima do RoleService que ele já pega o contexto e não precisa daquele outro código
 	@Autowired
 	private RoleService service;
 	
+	@Autowired
+	UserAuthorityValidator validator;
+	
 	@PostMapping
-	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleDto roleDto) {
+	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleDto roleDto, HttpServletRequest request) {
+		validator.validateAdmin(request);
+		
 		roleDto = service.addRole(roleDto);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id")
 				.buildAndExpand(roleDto.getId()).toUri();
 		
-		//como a tente tem está criando uma role o status tem que ser 201(created) e não 200(ok)
 		return ResponseEntity.created(uri).body(roleDto);
 	}
 }
