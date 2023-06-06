@@ -7,11 +7,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "add_balance")
-public class Add_Balance implements Serializable{
+public class Add_BalanceEntity implements Serializable{
 
 	/**
 	 * 
@@ -24,15 +26,20 @@ public class Add_Balance implements Serializable{
 	private float addValue;
 	private boolean approved;
 	
-	public Add_Balance() {
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private UserEntity userEntity;
+	
+	public Add_BalanceEntity() {
 		
 	}
 	
-	public Add_Balance(Long id, float addValue, boolean approved) {
+	public Add_BalanceEntity(Long id, float addValue, boolean approved, UserEntity userEntity) {
 		super();
 		this.id = id;
 		this.addValue = addValue;
 		this.approved = approved;
+		this.userEntity = userEntity;
 	}
 
 	public Long getId() {
@@ -59,6 +66,14 @@ public class Add_Balance implements Serializable{
 		this.approved = approved;
 	}
 
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -72,7 +87,7 @@ public class Add_Balance implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Add_Balance other = (Add_Balance) obj;
+		Add_BalanceEntity other = (Add_BalanceEntity) obj;
 		return Objects.equals(id, other.id);
 	}
 }
