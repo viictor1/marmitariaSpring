@@ -46,7 +46,7 @@ public class TokenFilter extends OncePerRequestFilter{
 			user = userRepository.findByEmail(subjetc);
 			
 			if(user != null) {
-				var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+				var authentication = new UsernamePasswordAuthenticationToken(user, user.getId(), user.getAuthorities());
 				
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}

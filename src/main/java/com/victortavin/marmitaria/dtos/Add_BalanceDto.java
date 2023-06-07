@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.dtos;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.victortavin.marmitaria.entities.Add_BalanceEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
@@ -59,4 +60,31 @@ public class Add_BalanceDto implements Serializable{
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
+
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Add_BalanceDto other = (Add_BalanceDto) obj;
+		return Objects.equals(id, other.id);
+	}
+	
+	
 }
