@@ -39,20 +39,22 @@ public class TokenFilter extends OncePerRequestFilter{
 		var token = recoverToken(request);
 		
 		UserEntity user = null;
-		
 		   if (token == null) {
-		        ObjectMapper mapper = new ObjectMapper();
-		        mapper.registerModule(new JavaTimeModule());
-		        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
-		        String json = mapper.writeValueAsString(erro);
-		        
-		        response.setContentType("application/json");
-		        response.setCharacterEncoding("UTF-8");
-		        response.setStatus(403);
-		        response.getWriter().write(json);
-		        
-		        filterChain.doFilter(request, response);
-		        return;
+			   if(!request.getRequestURI().equals("/users/login")
+					   && !request.getRequestURI().equals("/users/cadastro")
+					   && !request.getRequestURI().equals("/h2-console")) {
+				   	ObjectMapper mapper = new ObjectMapper();
+			        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
+			        String json = mapper.writeValueAsString(erro);
+			        
+			        response.setContentType("application/json");
+			        response.setCharacterEncoding("UTF-8");
+			        response.setStatus(403);
+			        response.getWriter().write(json);
+			        
+			        return;
+			        
+			   } 
 		    }
 		
 		if(token != null) {
