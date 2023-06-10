@@ -5,13 +5,13 @@ import java.time.Instant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.victortavin.marmitaria.controllers.exceptions.StandardError;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.UserRepository;
@@ -32,27 +32,34 @@ public class TokenFilter extends OncePerRequestFilter{
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired  // Precisa disso para criar o mapper que transforma o erro em json 
+    Jackson2ObjectMapperBuilder mapperBuilder;
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
 		var token = recoverToken(request);
 		
-		UserEntity user = null;
 		
+		UserEntity user = null;
 		   if (token == null) {
-		        ObjectMapper mapper = new ObjectMapper();
-		        mapper.registerModule(new JavaTimeModule());
-		        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
-		        String json = mapper.writeValueAsString(erro);
-		        
-		        response.setContentType("application/json");
-		        response.setCharacterEncoding("UTF-8");
-		        response.setStatus(403);
-		        response.getWriter().write(json);
-		        
-		        filterChain.doFilter(request, response);
-		        return;
+			   if(!request.getRequestURI().equals("/users/login")
+					   && !request.getRequestURI().equals("/users/cadastro")
+					   && !request.getRequestURI().equals("/h2-console")) {
+				   
+				   	ObjectMapper mapper = mapperBuilder.build();				   
+			        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
+			        String json = mapper.writeValueAsString(erro);
+			        
+			        response.setContentType("application/json");
+			        response.setCharacterEncoding("UTF-8");
+			        response.setStatus(403);
+			        response.getWriter().write(json);
+			        
+			        return;
+			        
+			   } 
 		    }
 		
 		if(token != null) {
