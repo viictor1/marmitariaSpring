@@ -2,20 +2,26 @@ package com.victortavin.marmitaria.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -47,6 +53,10 @@ public class UserEntity implements Serializable, UserDetails{
 	@OneToOne
 	@JoinColumn(name = "balance_id")
 	private BalanceEntity balance;
+	
+	@JsonIgnoreProperties({"userEntity"})
+	@OneToMany(mappedBy = "userEntity",  fetch = FetchType.EAGER)
+	private Set<Add_BalanceEntity> addBalance = new HashSet<>();
 	
 	public UserEntity() {
 		
@@ -126,6 +136,16 @@ public class UserEntity implements Serializable, UserDetails{
 
 	public void setBalance(BalanceEntity balance) {
 		this.balance = balance;
+	}
+	
+	
+
+	public Set<Add_BalanceEntity> getAddBalance() {
+		return addBalance;
+	}
+
+	public void setAddBalance(Set<Add_BalanceEntity> addBalance) {
+		this.addBalance = addBalance;
 	}
 
 	@Override

@@ -3,7 +3,10 @@ package com.victortavin.marmitaria.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,8 +29,9 @@ public class Add_BalanceEntity implements Serializable{
 	private float addValue;
 	private boolean approved;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable=false)
 	private UserEntity userEntity;
 	
 	public Add_BalanceEntity() {
@@ -35,12 +39,13 @@ public class Add_BalanceEntity implements Serializable{
 	}
 	
 	public Add_BalanceEntity(Long id, float addValue, boolean approved, UserEntity userEntity) {
-		super();
 		this.id = id;
 		this.addValue = addValue;
 		this.approved = approved;
 		this.userEntity = userEntity;
 	}
+	
+	
 
 	public Long getId() {
 		return id;

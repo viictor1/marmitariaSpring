@@ -27,14 +27,12 @@ public class Add_BalanceDto implements Serializable{
 		this.id = id;
 		this.addValue = addValue;
 		this.approved = approved;
-		this.userEntity = userEntity;
 	}
 	
 	public Add_BalanceDto(Add_BalanceEntity add_BalanceEntity) {
 		this.id = add_BalanceEntity.getId();
 		this.addValue = add_BalanceEntity.getAddValue();
 		this.approved = add_BalanceEntity.isApproved();
-		this.userEntity = add_BalanceEntity.getUserEntity();
 	}
 
 	public Long getId() {
@@ -59,14 +57,6 @@ public class Add_BalanceDto implements Serializable{
 
 	public void setApproved(boolean approved) {
 		this.approved = approved;
-	}
-
-	public UserEntity getUserEntity() {
-		return userEntity;
-	}
-
-	public void setUserEntity(UserEntity userEntity) {
-		this.userEntity = userEntity;
 	}
 
 	@Override

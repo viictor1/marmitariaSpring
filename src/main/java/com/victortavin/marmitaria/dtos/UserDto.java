@@ -1,7 +1,9 @@
 package com.victortavin.marmitaria.dtos;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
@@ -32,6 +34,8 @@ public class UserDto implements Serializable{
 	private RoleEntity role;
 	
 	private BalanceEntity balance;
+	
+	Set<Add_BalanceDto> addBalance = new HashSet<>();
 
 	public UserDto(Long id, String firstName,String lastName, String cpf,String email, RoleEntity role, BalanceEntity balance) {
 		super();
@@ -53,6 +57,7 @@ public class UserDto implements Serializable{
 		this.email = userEntity.getEmail();
 		this.role = userEntity.getRole();
 		this.balance = userEntity.getBalance();
+		userEntity.getAddBalance().forEach(balance -> this.addBalance.add(new Add_BalanceDto(balance)));
 	}
 
 	public UserDto() {
@@ -114,6 +119,16 @@ public class UserDto implements Serializable{
 
 	public void setBalance(BalanceEntity balance) {
 		this.balance = balance;
+	}
+	
+	
+
+	public Set<Add_BalanceDto> getAddBalance() {
+		return addBalance;
+	}
+
+	public void setAddBalance(Set<Add_BalanceDto> addBalance) {
+		this.addBalance = addBalance;
 	}
 
 	@Override
