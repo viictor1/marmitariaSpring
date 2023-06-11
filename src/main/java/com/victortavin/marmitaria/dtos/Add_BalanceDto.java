@@ -16,7 +16,6 @@ public class Add_BalanceDto implements Serializable{
 	private Long id;
 	private float addValue;
 	private boolean approved;
-	private UserEntity userEntity;
 	
 	public Add_BalanceDto() {
 		
