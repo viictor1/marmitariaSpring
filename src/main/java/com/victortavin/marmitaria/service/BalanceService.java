@@ -45,7 +45,9 @@ public class BalanceService {
 		float balance = 0;
 		for (Add_BalanceDto add_BalanceDto : userBalanceDto.getAddBalance()) {
 			if(add_BalanceDto.isApproved()) {
-				balance += 0;
+				
+				balance += add_BalanceDto.getAddValue();
+				
 			}
 		}
 		
