@@ -39,5 +39,9 @@ public class BalanceController {
 	@PostMapping(value = "/aceitar")
 	public ResponseEntity<BalanceDto> aceitarBalance(@RequestBody UserBalanceDto userBalanceDto){
 		validator.validateAdmin();
+		
+		BalanceDto balanceDto = balanceService.aprovedBalance(userBalanceDto);
+		
+		return ResponseEntity.ok().body(balanceDto);
 	}
 }
