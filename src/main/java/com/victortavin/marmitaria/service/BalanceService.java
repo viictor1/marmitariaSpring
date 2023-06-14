@@ -46,20 +46,30 @@ public class BalanceService {
 		return list.map(x -> new UserBalanceDto(x));
 	}
 
+	@Transactional
 	public BalanceDto aprovedBalance(UserBalanceDto userBalanceDto) {
+		
+		UserEntity userEntity = addBalanceisAproved(userBalanceDto);
+		
+		userRepository.save(userEntity);
+
+		BalanceEntity balanceEntity = userEntity.getBalance();
+		
+		return new BalanceDto(balanceEntity);
+	}
+	
+	private UserEntity addBalanceisAproved(UserBalanceDto userBalanceDto) {
+		UserEntity userEntity = findByIdUser(userBalanceDto.getId());
+		
 		float balance = 0;
-
-		Optional<UserEntity> userOptional = userRepository.findById(userBalanceDto.getId());
-
-		UserEntity userEntity = userOptional
-				.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + userBalanceDto.getId()));
+		
 		userEntity.getAddBalance().clear();
 		
 		for (Add_BalanceDto add_BalanceDto : userBalanceDto.getAddBalance()) {
 			
-			Add_BalanceEntity addBalanceEntity = addBalanceRepository.getReferenceById(add_BalanceDto.getId());
+			Add_BalanceEntity addBalanceEntity = new Add_BalanceEntity();
 			
-			addBalanceEntity.setApproved(add_BalanceDto.isApproved());
+			copyAddBalanceDtoToAddBalanceEntity(add_BalanceDto, addBalanceEntity);
 			
 			userEntity.getAddBalance().add(addBalanceEntity);
 			
@@ -69,13 +79,26 @@ public class BalanceService {
 
 			}
 		}
-
+		
 		userEntity.getBalance().setValue(balance);
+		
+		return userEntity;
+	}
+	
+	private UserEntity findByIdUser(Long id) {
+		Optional<UserEntity> userOptional = userRepository.findById(id);
 
-		userRepository.save(userEntity);
-
-		BalanceEntity balanceEntity = userEntity.getBalance();
-		return new BalanceDto(balanceEntity);
+		UserEntity userEntity = userOptional
+				.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+		
+		return userEntity;
+	}
+	
+	private void copyAddBalanceDtoToAddBalanceEntity(Add_BalanceDto add_BalanceDto, Add_BalanceEntity addBalanceEntity) {
+		 addBalanceEntity = addBalanceRepository.getReferenceById(add_BalanceDto.getId());
+		
+		addBalanceEntity.setApproved(add_BalanceDto.isApproved());
+	
 	}
 
 }

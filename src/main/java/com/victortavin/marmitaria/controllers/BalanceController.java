@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.controllers.exceptions;
+package com.victortavin.marmitaria.controllers;
 
 
 

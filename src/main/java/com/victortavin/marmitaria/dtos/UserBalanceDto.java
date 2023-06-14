@@ -36,7 +36,12 @@ public class UserBalanceDto implements Serializable{
 		this.id = userEntity.getId();
 		this.firstName = userEntity.getFirstName();
 		this.lastName = userEntity.getLastName();
-		userEntity.getAddBalance().forEach(balance -> this.addBalance.add(new Add_BalanceDto(balance)));
+		userEntity.getAddBalance().forEach(balance -> {
+			
+			if (!balance.isApproved()) {
+				this.addBalance.add(new Add_BalanceDto(balance));
+			}
+		});
 	}
 
 
