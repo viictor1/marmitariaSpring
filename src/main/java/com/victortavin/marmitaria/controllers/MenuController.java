@@ -10,31 +10,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.service.RoleService;
+import com.victortavin.marmitaria.dtos.MenuDto;
+import com.victortavin.marmitaria.service.MenuService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/roles")
-public class RoleController {
+@RequestMapping(value = "/menu")
+public class MenuController {
 
 	@Autowired
-	private RoleService service;
+	private MenuService service;
 	
 	@Autowired
 	UserAuthorityValidator validator;
 	
 	@PostMapping
-	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleDto roleDto) {
+	public ResponseEntity<MenuDto> addMenu(@Valid @RequestBody MenuDto menuDto){
 		validator.validateAdmin();
 		
-		roleDto = service.addRole(roleDto);
+		menuDto = service.addMenu(menuDto);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id")
-				.buildAndExpand(roleDto.getId()).toUri();
+				.buildAndExpand(menuDto.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(roleDto);
+		return ResponseEntity.created(uri).body(menuDto);
 	}
 }
