@@ -31,6 +31,8 @@ public class UserDto implements Serializable{
 	@Email(message = "Esse campo precisa ser um Email")
 	private String email;
 	
+	private String password;
+	
 	private RoleEntity role;
 	
 	private BalanceEntity balance;
@@ -129,6 +131,15 @@ public class UserDto implements Serializable{
 
 	public void setAddBalance(Set<Add_BalanceDto> addBalance) {
 		this.addBalance = addBalance;
+	}
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
