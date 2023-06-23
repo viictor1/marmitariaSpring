@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +19,13 @@ import com.victortavin.marmitaria.dtos.TokenDto;
 import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.dtos.UserLoginDto;
+import com.victortavin.marmitaria.dtos.UserUpdateDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.service.TokenService;
 import com.victortavin.marmitaria.service.UserService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -66,6 +69,19 @@ public class UserController {
 	public ResponseEntity<UserDto> findByIdUser(@PathVariable Long id){
 		validator.validateAdmin();
 		UserDto userDto = service.findByidUser(id);
+		
+		return ResponseEntity.ok().body(userDto);
+	}
+	
+	@PutMapping(value = "/update")
+	public ResponseEntity<UserDto> update(HttpServletRequest request, @RequestBody UserUpdateDto updateDto){
+		String authorizationHeader = request.getHeader("Authorization");
+		authorizationHeader = authorizationHeader.replace("Bearer ", "");
+		String subjetc = tokenService.getSubject(authorizationHeader);
+
+		UserDto userDto = service.findByEmailUser(subjetc);
+		
+		userDto = service.update(userDto, updateDto);
 		
 		return ResponseEntity.ok().body(userDto);
 	}

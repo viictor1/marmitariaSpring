@@ -4,6 +4,7 @@ package com.victortavin.marmitaria.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.victortavin.marmitaria.dtos.BalanceDto;
 import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
+import com.victortavin.marmitaria.dtos.UserUpdateDto;
 import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
@@ -97,6 +99,51 @@ public class UserService implements UserDetailsService{
 		userEntity.setBalance(balanceEntity);
 		System.out.println(userEntity.getBalance().getId());
 	
+	}
+
+	@Transactional
+	public UserDto update(UserDto userDto, UserUpdateDto updateDto) {
+		if(passwordEncoder.matches(updateDto.getOldPassword(), userDto.getPassword()))
+		{
+			UserEntity userEntity = copyUpdateDtoToEntity(userDto.getEmail(), updateDto);
+			userEntity = repository.save(userEntity);
+			return new UserDto(userEntity);
+		}
+		else {
+			throw new BadCredentialsException("Senha inválida");
+		}
+	}
+	
+	public UserEntity copyUpdateDtoToEntity(String email, UserUpdateDto updateDto) {
+		UserEntity user = repository.findByEmail(email);
+		
+		if(updateDto.getFirstName() != null) {
+			user.setFirstName(updateDto.getFirstName());
+		}
+		
+		if(updateDto.getLastName() != null) {
+			user.setLastName(updateDto.getLastName());
+		}
+		
+		if(updateDto.getCpf() != null) {
+			user.setCpf(updateDto.getCpf());
+		}
+		
+		if(updateDto.getNewPassword() != null) {
+			user.setPassword(passwordEncoder.encode(updateDto.getNewPassword()));
+		}
+		
+		return user;
+	}
+	
+	@Transactional
+	public UserDto findByEmailUser(String email) {
+		Optional<UserEntity> userOptional = Optional.of(repository.findByEmail(email));
+		
+		UserEntity userEntity = userOptional.orElseThrow(()-> new ResourceNotFoundException("Email not found: " + email));
+		UserDto userDto = new UserDto(userEntity);
+		userDto.setPassword(userEntity.getPassword());  // fiz isso pq preciso da senha ao fazer o update
+		return userDto;
 	}
 	
 }
