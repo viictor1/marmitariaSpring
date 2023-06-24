@@ -35,6 +35,7 @@ public class BalanceService {
 		BalanceEntity balanceEntity = new BalanceEntity(null, 0);
 
 		balanceEntity = balanceRepository.save(balanceEntity);
+		
 
 		return new BalanceDto(balanceEntity);
 	}
