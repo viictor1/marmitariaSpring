@@ -29,7 +29,7 @@ public class BalanceController {
 	
 	@GetMapping(value = "/pentendes")
 	public ResponseEntity<Page<UserBalanceDto>> findAll(Pageable pageable){
-		validator.validateAdmin();
+		validator.validateBank();
 		
 		Page<UserBalanceDto> list = balanceService.findAllPage(pageable);
 		
@@ -38,7 +38,7 @@ public class BalanceController {
 	
 	@PostMapping(value = "/aceitar")
 	public ResponseEntity<BalanceDto> aceitarBalance(@RequestBody UserBalanceDto userBalanceDto){
-		validator.validateAdmin();
+		validator.validateBank();
 		
 		BalanceDto balanceDto = balanceService.aprovedBalance(userBalanceDto);
 		

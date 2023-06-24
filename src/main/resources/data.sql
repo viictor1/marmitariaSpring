@@ -1,6 +1,6 @@
 INSERT INTO roles (name) values ('User');
 INSERT INTO roles (name) values ('Admin');
-INSERT INTO roles (name) values ('BanK');
+INSERT INTO roles (name) values ('Bank');
 INSERT INTO roles (name) values ('Entregador');
 
 INSERT INTO users (first_name, last_name, cpf, email, password, role_id) values ('Teste', 'De User', '111.111.111-11', 'adm@test.com', '$2a$12$FodxaaXhuLZNA2jnRdXT5ODrS0bvQmwzHCouS4y4NwDduuTrRI5AS', 2);

@@ -34,6 +34,24 @@ public class UserAuthorityValidator {
 			
 	}
 	
+	public void validateBank() {
+		for (GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+			 if(!authority.getAuthority().equals("Bank")) {
+				 throw new ForbiddenException("Usuário não é um banco");
+			 }
+		}
+			
+	}
+	
+	public void validateEntregador() {
+		for (GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+			 if(!authority.getAuthority().equals("Entregador")) {
+				 throw new ForbiddenException("Usuário não é um entregador");
+			 }
+		}
+			
+	}
+	
 	public UserEntity validateLogado(HttpServletRequest request) {
 		try {
 			var token = filter.recoverToken(request);
