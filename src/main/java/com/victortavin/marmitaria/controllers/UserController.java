@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.TokenDto;
+import com.victortavin.marmitaria.dtos.UserDeleteDto;
 import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.dtos.UserLoginDto;
@@ -75,15 +77,28 @@ public class UserController {
 	
 	@PutMapping(value = "/update")
 	public ResponseEntity<UserDto> update(HttpServletRequest request, @RequestBody UserUpdateDto updateDto){
-		String authorizationHeader = request.getHeader("Authorization");
-		authorizationHeader = authorizationHeader.replace("Bearer ", "");
-		String subjetc = tokenService.getSubject(authorizationHeader);
+		String email = retrieveUsernameFromRequest(request);
 
-		UserDto userDto = service.findByEmailUser(subjetc);
+		UserDto userDto = service.findByEmailUser(email);
 		
 		userDto = service.update(userDto, updateDto);
 		
 		return ResponseEntity.ok().body(userDto);
+	}
+	
+	@DeleteMapping(value = "/delete")
+	public ResponseEntity<String> delete(HttpServletRequest request, @RequestBody UserDeleteDto deleteDto){
+		String email = retrieveUsernameFromRequest(request);
+		UserDto userDto = service.findByEmailUser(email);
+		service.delete(userDto, deleteDto.getPassword());
+		
+		return ResponseEntity.ok().body("User " + userDto.getFirstName() + " foi deletado");
+	}
+	
+	private String retrieveUsernameFromRequest(HttpServletRequest request) {
+		String authorizationHeader = request.getHeader("Authorization");
+		authorizationHeader = authorizationHeader.replace("Bearer ", "");
+		return tokenService.getSubject(authorizationHeader);
 	}
 }
 
