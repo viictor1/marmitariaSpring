@@ -145,5 +145,16 @@ public class UserService implements UserDetailsService{
 		userDto.setPassword(userEntity.getPassword());  // fiz isso pq preciso da senha ao fazer o update
 		return userDto;
 	}
+
+	@Transactional
+	public void delete(UserDto userDto, String password) {
+		if(passwordEncoder.matches(password, userDto.getPassword())) {
+			repository.deleteById(userDto.getId());
+		}
+		else {
+			throw new BadCredentialsException("Senha inválida");
+		}
+		
+	}
 	
 }
