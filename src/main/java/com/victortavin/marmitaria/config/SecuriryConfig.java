@@ -38,6 +38,7 @@ public class SecuriryConfig {
                 	req.requestMatchers(HttpMethod.POST, "/users/login").permitAll();
                 	req.requestMatchers(HttpMethod.POST, "/users/cadastro").permitAll();
                 	req.requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll();
+                	req.requestMatchers(HttpMethod.GET, "swagger-ui/**").permitAll();
                 	req.anyRequest().permitAll();
                 })
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
