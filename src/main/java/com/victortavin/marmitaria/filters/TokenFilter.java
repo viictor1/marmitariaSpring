@@ -46,7 +46,9 @@ public class TokenFilter extends OncePerRequestFilter{
 		   if (token == null) {
 			   if(!request.getRequestURI().equals("/users/login")
 					   && !request.getRequestURI().equals("/users/cadastro")
-					   && !request.getRequestURI().equals("/h2-console/**")) {
+					   && !request.getRequestURI().startsWith("/h2-console")
+					   && !request.getRequestURI().startsWith("/swagger-ui")
+					   && !request.getRequestURI().startsWith("/v3/api-docs")) {
 				   
 				   	ObjectMapper mapper = mapperBuilder.build();				   
 			        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
