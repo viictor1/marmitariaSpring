@@ -24,25 +24,13 @@ public class SecuriryConfig {
 	@Autowired
 	private TokenFilter tokenFilter;
 	
-    public static final String[] PUBLIC_PATHS = {
-    		"/api/auth/**",
-            "/v3/api-docs.yaml",
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/users/login",
-            "/users/cadastro",
-            "/h2-console/**",
-            "swagger-ui/**"
-            };
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     	return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req ->{
-                	req.requestMatchers(PUBLIC_PATHS).permitAll();
+                	req.anyRequest().permitAll(); /*Gerenciamento de permissões está sendo feito no filtro e nas rotas */
                 })
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
