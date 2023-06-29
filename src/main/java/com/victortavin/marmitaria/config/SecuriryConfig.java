@@ -3,7 +3,6 @@ package com.victortavin.marmitaria.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -21,25 +20,17 @@ import com.victortavin.marmitaria.filters.TokenFilter;
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecuriryConfig {
-    /*@Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/**");
-    }*/
 	
 	@Autowired
 	private TokenFilter tokenFilter;
-
+	
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     	return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req ->{
-                	req.requestMatchers(HttpMethod.POST, "/users/login").permitAll();
-                	req.requestMatchers(HttpMethod.POST, "/users/cadastro").permitAll();
-                	req.requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll();
-                	req.requestMatchers(HttpMethod.GET, "swagger-ui/**").permitAll();
-                	req.anyRequest().permitAll();
+                	req.anyRequest().permitAll(); /*Gerenciamento de permissões está sendo feito no filtro e nas rotas */
                 })
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

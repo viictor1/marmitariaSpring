@@ -35,6 +35,16 @@ public class TokenFilter extends OncePerRequestFilter{
 	@Autowired  // Precisa disso para criar o mapper que transforma o erro em json 
     Jackson2ObjectMapperBuilder mapperBuilder;
 	
+	String[] publicPaths = {"/api/auth",
+	          "/v3/api-docs.yaml",
+	          "/v3/api-docs",
+	          "/swagger-ui",
+	          "/swagger-ui.html",
+	          "/users/login",
+	          "/users/cadastro",
+	          "/h2-console",
+	          "swagger-ui"};
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -44,11 +54,14 @@ public class TokenFilter extends OncePerRequestFilter{
 		
 		UserEntity user = null;
 		   if (token == null) {
-			   if(!request.getRequestURI().equals("/users/login")
-					   && !request.getRequestURI().equals("/users/cadastro")
-					   && !request.getRequestURI().startsWith("/h2-console")
-					   && !request.getRequestURI().startsWith("/swagger-ui")
-					   && !request.getRequestURI().startsWith("/v3/api-docs")) {
+			   boolean isPublic = false;
+			   for (String path : publicPaths) {
+				   if(request.getRequestURI().startsWith(path)) {
+					   isPublic = true;
+				   }
+			   }
+			
+			   if(isPublic == false) {
 				   
 				   	ObjectMapper mapper = mapperBuilder.build();				   
 			        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
@@ -60,27 +73,28 @@ public class TokenFilter extends OncePerRequestFilter{
 			        response.getWriter().write(json);
 			        
 			        return;
-			        
-			   } 
+			   }
+			   
 		    }
 		
-		if(token != null) {
-			String subjetc = tokenService.getSubject(token);
-
-			user = userRepository.findByEmail(subjetc);
-			
-			if(user != null) {
-				var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+			if(token != null) {
+				String subjetc = tokenService.getSubject(token);
+	
+				user = userRepository.findByEmail(subjetc);
 				
-				SecurityContextHolder.getContext().setAuthentication(authentication);
+				if(user != null) {
+					var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+					
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+				}
+				UserEntity userEntity = userRepository.findByEmail(subjetc);
+				
+				var authentication = new UsernamePasswordAuthenticationToken(userEntity, userEntity.getId(), userEntity.getAuthorities());
+				 SecurityContextHolder.getContext().setAuthentication(authentication);
+				
 			}
-			UserEntity userEntity = userRepository.findByEmail(subjetc);
-			
-			var authentication = new UsernamePasswordAuthenticationToken(userEntity, userEntity.getId(), userEntity.getAuthorities());
-			 SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-		}
-		
+	   
+	   
 		filterChain.doFilter(request, response);
 		
 	}

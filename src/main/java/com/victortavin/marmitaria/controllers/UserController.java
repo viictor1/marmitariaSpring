@@ -27,6 +27,8 @@ import com.victortavin.marmitaria.service.TokenService;
 import com.victortavin.marmitaria.service.UserService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -46,6 +48,7 @@ public class UserController {
 	@Autowired
 	private UserAuthorityValidator validator;
 	
+	@Tag(name = "Register", description = "Cadastrar um novo usuário")
 	@PostMapping(value="/cadastro")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserInsertDto userInsertDto) {
 		UserDto userDto = service.addUser(userInsertDto);
@@ -56,6 +59,7 @@ public class UserController {
 		return ResponseEntity.created(uri).body(userDto);
 	}
 	
+	@Tag(name = "Login", description = "Fazer login com um usuário existente")
 	@PostMapping(value = "/login")
 	public ResponseEntity<TokenDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto){
 		
@@ -67,6 +71,8 @@ public class UserController {
 		return ResponseEntity.ok().body(new TokenDto(token));
 	}
 	
+	@SecurityRequirement(name = "Bearer Authentication")
+	@Tag(name = "Find user by ID")
 	@GetMapping(value= "/{id}")
 	public ResponseEntity<UserDto> findByIdUser(@PathVariable Long id){
 		validator.validateAdmin();
@@ -75,6 +81,10 @@ public class UserController {
 		return ResponseEntity.ok().body(userDto);
 	}
 	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Update User", description = 
+	"Altera o usuário, se não enviar um valor novo para algum atributo ele manterá o antigo,"
+	+ " é necessário confirmar a senha antiga")
 	@PutMapping(value = "/update")
 	public ResponseEntity<UserDto> update(HttpServletRequest request, @RequestBody UserUpdateDto updateDto){
 		String email = retrieveUsernameFromRequest(request);
@@ -86,6 +96,8 @@ public class UserController {
 		return ResponseEntity.ok().body(userDto);
 	}
 	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Delete User", description = "Deleta o usuário que está logado após confirmar senha")
 	@DeleteMapping(value = "/delete")
 	public ResponseEntity<String> delete(HttpServletRequest request, @RequestBody UserDeleteDto deleteDto){
 		String email = retrieveUsernameFromRequest(request);
