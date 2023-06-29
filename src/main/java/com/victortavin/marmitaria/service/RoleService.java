@@ -65,4 +65,11 @@ public class RoleService {
 			throw new ResourceNotFoundException("Role não encontrada");
 		}
 	}
+
+	public RoleDto updateRole(Long id, RoleDto roleDto) {
+		RoleEntity entity = repository.getReferenceById(id);
+		copyRoleDtoToRoleEntity(roleDto, entity);
+		entity = repository.save(entity);
+		return new RoleDto(entity);
+	}
 }
