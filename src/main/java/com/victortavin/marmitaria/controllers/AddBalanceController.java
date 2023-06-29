@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.Add_BalanceDto;
 import com.victortavin.marmitaria.service.AddBalanceService;
+import com.victortavin.marmitaria.service.MessageService;
 
 import jakarta.validation.Valid;
 
@@ -22,12 +23,18 @@ public class AddBalanceController {
 	@Autowired
 	private AddBalanceService addBalanceService;
 	
+	@Autowired
+	private MessageService message;
+	
 	@PostMapping
 	public ResponseEntity<Add_BalanceDto> addBalance(@Valid @RequestBody float addValue){
 		Add_BalanceDto addBalanceDto = addBalanceService.newBalance(addValue);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id")
 				.buildAndExpand(addBalanceDto.getId()).toUri();
+		
+		message.addSaldoUser(addValue);
+		message.addSaldoBanco(addValue);
 		
 		return ResponseEntity.created(uri).body(addBalanceDto);
 	}

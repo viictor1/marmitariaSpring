@@ -1,7 +1,9 @@
 package com.victortavin.marmitaria.service;
 
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,10 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.dtos.BalanceDto;
+import com.victortavin.marmitaria.dtos.RoleDto;
 import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.dtos.UserUpdateDto;
 import com.victortavin.marmitaria.entities.BalanceEntity;
+import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
@@ -88,7 +92,11 @@ public class UserService implements UserDetailsService{
 	}
 	
 	private void addRoleInUser(UserEntity userEntity) {
-		userEntity.setRole(roleRepository.findByName("User"));
+		Optional<RoleEntity> roleOptional = roleRepository.findByName("User");
+		
+		RoleEntity roleEntity = roleOptional.orElseThrow(()-> new ResourceNotFoundException("Role not found: User"));
+		
+		userEntity.setRole(roleEntity);
 	}
 	
 	private void addBalanceInUser(UserEntity userEntity) {
@@ -155,6 +163,15 @@ public class UserService implements UserDetailsService{
 			throw new BadCredentialsException("Senha inválida");
 		}
 		
+	}
+	
+	@Transactional
+	public List<UserDto> findAllByRole(RoleDto roleDto){
+		RoleEntity roleEntity = new RoleEntity(roleDto.getId(), roleDto.getName());
+		
+		List<UserEntity> listEntity = repository.findAllByRole(roleEntity);
+		
+		return listEntity.stream().map(UserDto::new).collect(Collectors.toList());
 	}
 	
 }
