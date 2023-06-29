@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.victortavin.marmitaria.dtos.RoleDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
+import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -14,9 +15,7 @@ public class RoleService {
 	
 	@Autowired
 	private RoleRepository repository;
-	
-	//criei o dto porque no padrão a entity não pode ter contato com as outras camadas 
-	//além disso a validação é feita no dto
+
 	@Transactional
 	public RoleDto addRole(RoleDto roleDto) {
 		RoleEntity roleEntity = new RoleEntity();
@@ -28,8 +27,19 @@ public class RoleService {
 		
 	}
 	
-	//isso é só frescura do livro de código limpo que eu to lendo kkkkk
 	private void copyRoleDtoToRoleEntity(RoleDto roleDto, RoleEntity roleEntity) {
 		roleEntity.setName(roleDto.getName());
+	}
+
+	public String delete(Long id) {
+		try {
+			RoleEntity roleEntity = repository.getReferenceById(id);
+			repository.delete(roleEntity);
+			return roleEntity.getName();
+		}
+		catch (Exception e) {
+			throw new ResourceNotFoundException("Role não encontrada ou está em uso");
+		}
+
 	}
 }

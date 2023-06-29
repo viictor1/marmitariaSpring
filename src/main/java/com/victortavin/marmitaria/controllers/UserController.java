@@ -28,7 +28,6 @@ import com.victortavin.marmitaria.service.TokenService;
 import com.victortavin.marmitaria.service.UserService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
-import eu.bitwalker.useragentutils.UserAgent;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
