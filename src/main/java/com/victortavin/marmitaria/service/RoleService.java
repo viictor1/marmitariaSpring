@@ -1,5 +1,8 @@
 package com.victortavin.marmitaria.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +44,25 @@ public class RoleService {
 			throw new ResourceNotFoundException("Role não encontrada ou está em uso");
 		}
 
+	}
+
+	public List<RoleDto> getRoles() {
+		List<RoleDto> dtoList = new ArrayList<RoleDto>();
+		List<RoleEntity> entityList = repository.findAll();
+		
+		for (RoleEntity roleEntity : entityList) {
+			dtoList.add(new RoleDto(roleEntity));
+		}
+		
+		return dtoList;
+	}
+	
+	public RoleDto getRoleById(Long id) {
+		try {
+			RoleEntity entity = repository.getReferenceById(id);
+			return new RoleDto(entity);
+		}catch (Exception e) {
+			throw new ResourceNotFoundException("Role não encontrada");
+		}
 	}
 }

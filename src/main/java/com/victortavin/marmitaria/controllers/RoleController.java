@@ -1,10 +1,12 @@
 package com.victortavin.marmitaria.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,6 +53,24 @@ public class RoleController {
 		validator.validateAdmin();
 		String roleName = service.delete(id);
 		return ResponseEntity.ok().body("Role " + roleName + " Deletada");
+	}
+	
+	@GetMapping
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Get Roles", description = "Selecionar todas as roles")
+	public ResponseEntity<List<RoleDto>> getRoles(){
+		validator.validateAdmin();
+		List<RoleDto> roles = service.getRoles();
+		return ResponseEntity.ok().body(roles);
+	}
+	
+	@GetMapping(value = "/{id}")
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Get Role By Id", description = "Selecionar uma role pelo Id")
+	public ResponseEntity<RoleDto> getRoleById(@PathVariable Long id){
+		validator.validateAdmin();
+		RoleDto role = service.getRoleById(id);
+		return ResponseEntity.ok().body(role);
 	}
 	
 }
