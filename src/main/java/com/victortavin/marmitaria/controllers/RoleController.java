@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.RoleDto;
+import com.victortavin.marmitaria.dtos.RoleInsertDto;
 import com.victortavin.marmitaria.service.RoleService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
@@ -36,10 +37,10 @@ public class RoleController {
 	@PostMapping
 	@SecurityRequirement(name = "bearerAuth")
 	@Tag(name = "Add Role", description = "Criar role nova")
-	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleDto roleDto) {
+	public ResponseEntity<RoleDto> addRole(@Valid @RequestBody RoleInsertDto roleInsertDto) {
 		validator.validateAdmin();
 		
-		roleDto = service.addRole(roleDto);
+		RoleDto roleDto = service.addRole(roleInsertDto);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id")
 				.buildAndExpand(roleDto.getId()).toUri();
@@ -77,9 +78,9 @@ public class RoleController {
 	@PutMapping(value = "/{id}")
 	@SecurityRequirement(name = "bearerAuth")
 	@Tag(name = "Update Role", description = "Modificar o nome de uma role pelo id")
-	public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @Valid @RequestBody RoleDto roleDto){
+	public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @Valid @RequestBody RoleInsertDto insertDto){
 		validator.validateAdmin();
-		roleDto = service.updateRole(id, roleDto);
+		RoleDto roleDto = service.updateRole(id, insertDto);
 		return ResponseEntity.ok().body(roleDto);
 	}
 	

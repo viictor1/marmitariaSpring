@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.dtos.RoleDto;
+import com.victortavin.marmitaria.dtos.RoleInsertDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @Service
 public class RoleService {
@@ -20,9 +22,9 @@ public class RoleService {
 	private RoleRepository repository;
 
 	@Transactional
-	public RoleDto addRole(RoleDto roleDto) {
+	public RoleDto addRole(@Valid RoleInsertDto roleInsertDto) {
 		RoleEntity roleEntity = new RoleEntity();
-		copyRoleDtoToRoleEntity(roleDto, roleEntity);
+		copyRoleInsertDtoToRoleEntity(roleInsertDto, roleEntity);
 		
 		roleEntity = repository.save(roleEntity);
 		
@@ -30,7 +32,7 @@ public class RoleService {
 		
 	}
 	
-	private void copyRoleDtoToRoleEntity(RoleDto roleDto, RoleEntity roleEntity) {
+	private void copyRoleInsertDtoToRoleEntity(RoleInsertDto roleDto, RoleEntity roleEntity) {
 		roleEntity.setName(roleDto.getName());
 	}
 
@@ -66,9 +68,9 @@ public class RoleService {
 		}
 	}
 
-	public RoleDto updateRole(Long id, RoleDto roleDto) {
+	public RoleDto updateRole(Long id, @Valid RoleInsertDto insertDto) {
 		RoleEntity entity = repository.getReferenceById(id);
-		copyRoleDtoToRoleEntity(roleDto, entity);
+		copyRoleInsertDtoToRoleEntity(insertDto, entity);
 		entity = repository.save(entity);
 		return new RoleDto(entity);
 	}
