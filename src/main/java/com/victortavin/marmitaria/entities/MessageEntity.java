@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -25,18 +26,22 @@ public class MessageEntity implements Serializable{
 	private String recipient;
 	private String title;
 	private String message;
+	private Instant instant;
 	
 	public MessageEntity() {
 		
 	}
 	
-	public MessageEntity(Long id, String recipient, String title, String message) {
+	public MessageEntity(Long id, String recipient, String title, String message, Instant instant) {
 		super();
 		this.id = id;
 		this.recipient = recipient;
 		this.title = title;
 		this.message = message;
+		this.instant = instant;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -68,6 +73,15 @@ public class MessageEntity implements Serializable{
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+
+	public Instant getInstant() {
+		return instant;
+	}
+
+	public void setInstant(Instant instant) {
+		this.instant = instant;
 	}
 
 	@Override

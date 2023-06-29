@@ -23,10 +23,12 @@ import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.dtos.UserLoginDto;
 import com.victortavin.marmitaria.dtos.UserUpdateDto;
 import com.victortavin.marmitaria.entities.UserEntity;
+import com.victortavin.marmitaria.service.MessageService;
 import com.victortavin.marmitaria.service.TokenService;
 import com.victortavin.marmitaria.service.UserService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
+import eu.bitwalker.useragentutils.UserAgent;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,11 +50,17 @@ public class UserController {
 	@Autowired
 	private UserAuthorityValidator validator;
 	
+	@Autowired
+	private MessageService message;
+	
 	@Tag(name = "Register", description = "Cadastrar um novo usuário")
 	@PostMapping(value="/cadastro")
 	public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserInsertDto userInsertDto) {
 		UserDto userDto = service.addUser(userInsertDto);
-			
+		
+
+		message.userRegisteredSuccessfully(userDto.getEmail(), userDto.getFirstName());
+		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id")
 					.buildAndExpand(userInsertDto.getId()).toUri();
 			
@@ -61,12 +69,15 @@ public class UserController {
 	
 	@Tag(name = "Login", description = "Fazer login com um usuário existente")
 	@PostMapping(value = "/login")
-	public ResponseEntity<TokenDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto){
+	public ResponseEntity<TokenDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto, HttpServletRequest request){
 		
 		var authenticationToken = new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(), userLoginDto.getPassword());
 		var authentication = authenticationManager.authenticate(authenticationToken);
 		
 		String token = tokenService.generateToken((UserEntity) authentication.getPrincipal());
+		
+		String disposito = message.informacoesDoDispositivo(request);
+		message.userLogin(userLoginDto.getEmail(), disposito);
 		
 		return ResponseEntity.ok().body(new TokenDto(token));
 	}

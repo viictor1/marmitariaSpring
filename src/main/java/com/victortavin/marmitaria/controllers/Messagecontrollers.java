@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.victortavin.marmitaria.dtos.MessageDto;
 import com.victortavin.marmitaria.service.MessageService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping(value = "/emails")
 public class Messagecontrollers {
@@ -19,6 +21,7 @@ public class Messagecontrollers {
 	@Autowired
 	private MessageService messageService;
 	
+	@SecurityRequirement(name = "bearerAuth")
 	@GetMapping
 	public ResponseEntity<List<MessageDto>> findAllPage() {
 

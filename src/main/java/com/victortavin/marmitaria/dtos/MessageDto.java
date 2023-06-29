@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.dtos;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.victortavin.marmitaria.entities.MessageEntity;
@@ -16,24 +17,30 @@ public class MessageDto implements Serializable{
 	private String recipient;
 	private String title;
 	private String message;
+	private Instant instant;
 	
 	public MessageDto() {
 		
 	}
 
-	public MessageDto(Long id, String recipient, String title, String message) {
+	
+	public MessageDto(Long id, String recipient, String title, String message, Instant instant) {
 		super();
 		this.id = id;
 		this.recipient = recipient;
 		this.title = title;
 		this.message = message;
+		this.instant = instant;
 	}
-	
+
+
+
 	public MessageDto(MessageEntity messageEntity) {
 		this.id = messageEntity.getId();
 		this.recipient = messageEntity.getRecipient();
 		this.title = messageEntity.getTitle();
 		this.message = messageEntity.getMessage();
+		this.instant = messageEntity.getInstant();
 	}
 	
 	public Long getId() {
@@ -67,6 +74,16 @@ public class MessageDto implements Serializable{
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	public Instant getInstant() {
+		return instant;
+	}
+
+
+	public void setInstant(Instant instant) {
+		this.instant = instant;
+	}
+
 
 	@Override
 	public int hashCode() {
