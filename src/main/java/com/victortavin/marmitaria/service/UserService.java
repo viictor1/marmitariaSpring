@@ -179,7 +179,10 @@ public class UserService implements UserDetailsService{
 	public List<String> updateUserRole(Long idUser, String roleName) {
 		try {
 			UserEntity userEntity = repository.getReferenceById(idUser);	
-			RoleEntity roleEntity = roleRepository.findByName(roleName);
+			Optional<RoleEntity> roleOptional = roleRepository.findByName(roleName);
+			
+			RoleEntity roleEntity = roleOptional.orElseThrow(() -> new ResourceNotFoundException("Esse role não existe"));
+			
 			userEntity.setRole(roleEntity);
 			repository.save(userEntity);
 			

@@ -33,7 +33,6 @@ public class RoleService {
 		
 	}
 	
-	private void copyRoleInsertDtoToRoleEntity(RoleInsertDto roleDto, RoleEntity roleEntity) {
 	@Transactional
 	public RoleDto findByNameRole(String name) {
 		Optional<RoleEntity> roleOptional = repository.findByName(name);
@@ -85,4 +84,10 @@ public class RoleService {
 		entity = repository.save(entity);
 		return new RoleDto(entity);
 	}
+	
+	private void copyRoleInsertDtoToRoleEntity (RoleInsertDto insertDto, RoleEntity entity) {
+		entity.setName(insertDto.getName());
+	}
+	
 }
+
