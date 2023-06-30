@@ -2,6 +2,7 @@ package com.victortavin.marmitaria.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,13 @@ public class RoleService {
 	}
 	
 	private void copyRoleInsertDtoToRoleEntity(RoleInsertDto roleDto, RoleEntity roleEntity) {
-		roleEntity.setName(roleDto.getName());
+	@Transactional
+	public RoleDto findByNameRole(String name) {
+		Optional<RoleEntity> roleOptional = repository.findByName(name);
+		
+		RoleEntity roleEntity = roleOptional.orElseThrow(()-> new ResourceNotFoundException("Role not found: "+ name));
+		
+		return new RoleDto(roleEntity);
 	}
 
 	@Transactional
