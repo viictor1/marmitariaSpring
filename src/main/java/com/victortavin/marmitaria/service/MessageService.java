@@ -5,6 +5,7 @@ package com.victortavin.marmitaria.service;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.catalina.User;
@@ -21,6 +22,9 @@ import com.victortavin.marmitaria.entities.MessageEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.MessageRepository;
+import com.victortavin.marmitaria.repositories.RoleRepository;
+import com.victortavin.marmitaria.repositories.UserRepository;
+import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,10 +36,10 @@ public class MessageService {
 	private MessageRepository repository;
 	
 	@Autowired
-	private RoleService roleService;
+	private UserRepository userRepository;
 	
 	@Autowired
-	private UserService userService;
+	private RoleRepository roleRepository;
 	
 	@Transactional(readOnly = true)
 	public List<MessageDto> findAllPage(){
@@ -87,11 +91,13 @@ public class MessageService {
 		UserEntity userEntity = recuperandoEmail();
 		String email = userEntity.getEmail();
 		
-		RoleDto roleDto = roleService.findByNameRole("Bank");
+		Optional<RoleEntity> roleOptional = roleRepository.findByName("Bank");
 		
-		List<UserDto> list = userService.findAllByRole(roleDto);
+		RoleEntity role = roleOptional.orElseThrow(() -> new ResourceNotFoundException("Role não encontrada"));
 		
-		for (UserDto userDto : list) {
+		List<UserEntity> list = userRepository.findAllByRole(role);
+		
+		for (UserEntity userDto : list) {
 			if (userDto.getRole().getName().equals("Bank")) {
 				MessageEntity messageEntity = new MessageEntity();
 				
@@ -106,6 +112,18 @@ public class MessageService {
 			}
 		}
 		
+	}
+	
+	public void saldoAdicionado (String email, float value, double saldo) {
+		MessageEntity entity = new MessageEntity();
+		
+		entity.setRecipient(email);
+		entity.setTitle("Saldo Aprovado!");
+		entity.setMessage("O seu saldo de " + value + "foi aprovado. Agora você tem " +
+		saldo + " de saldo na carteira.");
+		entity.setInstant(Instant.now());
+		
+		repository.save(entity);
 	}
 	
 	public String informacoesDoDispositivo(HttpServletRequest request) {

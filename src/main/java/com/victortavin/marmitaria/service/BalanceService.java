@@ -21,6 +21,9 @@ import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class BalanceService {
+	
+	@Autowired
+	private MessageService messageService;
 
 	@Autowired
 	private BalanceRepository balanceRepository;
@@ -30,6 +33,8 @@ public class BalanceService {
 	
 	@Autowired
 	private AddBalanceRepository addBalanceRepository;
+
+	
 
 	public BalanceDto newBalance() {
 		BalanceEntity balanceEntity = new BalanceEntity(null, 0);
@@ -75,13 +80,13 @@ public class BalanceService {
 			userEntity.getAddBalance().add(addBalanceEntity);
 			
 			if (add_BalanceDto.isApproved()) {
-
-				balance += add_BalanceDto.getAddValue();
-
+				
+				userEntity.getBalance().setValue(userEntity.getBalance().getValue() + add_BalanceDto.getAddValue());
+				messageService.saldoAdicionado(userEntity.getEmail(), add_BalanceDto.getAddValue(), userEntity.getBalance().getValue());
 			}
 		}
 		
-		userEntity.getBalance().setValue(balance);
+		
 		
 		return userEntity;
 	}
