@@ -7,34 +7,39 @@ public class UserRoleUpdateDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	public Long idUser;
+	private Long idUser;
 
-	public Long idRole;
+	private String roleName;
 
 	public Long getIdUser() {
 		return idUser;
 	}
+	
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
-	}
-
-	public Long getIdRole() {
-		return idRole;
-	}
-
-	public void setIdRole(Long idRole) {
-		this.idRole = idRole;
 	}
 
 	public UserRoleUpdateDto() {
 		super();
 	}
 
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(idRole, idUser);
+		return Objects.hash(idUser, roleName);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -45,8 +50,8 @@ public class UserRoleUpdateDto implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		UserRoleUpdateDto other = (UserRoleUpdateDto) obj;
-		return Objects.equals(idRole, other.idRole) && Objects.equals(idUser, other.idUser);
+		return Objects.equals(idUser, other.idUser) && Objects.equals(roleName, other.roleName);
 	}
-	
+
 	
 }

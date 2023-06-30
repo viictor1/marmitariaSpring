@@ -170,10 +170,10 @@ public class UserService implements UserDetailsService{
 		return dtoList;
 	}
 
-	public List<String> updateUserRole(Long idUser, Long idRole) {
+	public List<String> updateUserRole(Long idUser, String roleName) {
 		try {
 			UserEntity userEntity = repository.getReferenceById(idUser);	
-			RoleEntity roleEntity = roleRepository.getReferenceById(idRole);
+			RoleEntity roleEntity = roleRepository.findByName(roleName);
 			userEntity.setRole(roleEntity);
 			repository.save(userEntity);
 			
@@ -183,7 +183,7 @@ public class UserService implements UserDetailsService{
 			return names;
 		}
 		catch (Exception e) {
-			throw new ResourceNotFoundException("User ou Role não encontrado");
+			throw new ResourceNotFoundException("User ou Role não encontrados");
 		}
 		
 	}

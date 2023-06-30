@@ -137,7 +137,7 @@ public class UserController {
 	@Tag(name = "Update User-Role", description = "Atualizar a role de um usuário através do id da role e do usuário")
 	@PutMapping(value = "updateRole")
 	public ResponseEntity<String> updateUserRole(@Valid @RequestBody UserRoleUpdateDto dto){
-		List<String> names = service.updateUserRole(dto.idUser, dto.idRole);
+		List<String> names = service.updateUserRole(dto.getIdUser(), dto.getRoleName());
 		return ResponseEntity.ok().body(names.get(0) + " é agora um " + names.get(1));
 	}
 }
