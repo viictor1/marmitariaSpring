@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import com.victortavin.marmitaria.dtos.UserDeleteDto;
 import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.dtos.UserLoginDto;
+import com.victortavin.marmitaria.dtos.UserRoleUpdateDto;
 import com.victortavin.marmitaria.dtos.UserUpdateDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.service.MessageService;
@@ -81,7 +83,7 @@ public class UserController {
 		return ResponseEntity.ok().body(new TokenDto(token));
 	}
 	
-	@SecurityRequirement(name = "Bearer Authentication")
+	@SecurityRequirement(name = "bearerAuth")
 	@Tag(name = "Find user by ID")
 	@GetMapping(value= "/{id}")
 	public ResponseEntity<UserDto> findByIdUser(@PathVariable Long id){
@@ -121,6 +123,22 @@ public class UserController {
 		String authorizationHeader = request.getHeader("Authorization");
 		authorizationHeader = authorizationHeader.replace("Bearer ", "");
 		return tokenService.getSubject(authorizationHeader);
+	}
+	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Get Users", description = "Mostra todos os usuários")
+	@GetMapping
+	public ResponseEntity<List<UserDto>> getUsers(){
+		validator.validateAdmin();
+		return ResponseEntity.ok().body(service.getAllUsers());
+	}
+	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Update User-Role", description = "Atualizar a role de um usuário através do id da role e do usuário")
+	@PutMapping(value = "updateRole")
+	public ResponseEntity<String> updateUserRole(@Valid @RequestBody UserRoleUpdateDto dto){
+		List<String> names = service.updateUserRole(dto.getIdUser(), dto.getRoleName());
+		return ResponseEntity.ok().body(names.get(0) + " é agora um " + names.get(1));
 	}
 }
 

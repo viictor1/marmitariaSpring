@@ -1,6 +1,7 @@
 package com.victortavin.marmitaria.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -161,6 +162,34 @@ public class UserService implements UserDetailsService{
 		}
 		else {
 			throw new BadCredentialsException("Senha inválida");
+		}
+		
+	}
+
+	@Transactional
+	public List<UserDto> getAllUsers() {
+		List<UserEntity> entityList= repository.findAll();
+		List<UserDto> dtoList = new ArrayList<UserDto>();
+		for (UserEntity userEntity : entityList) {
+			dtoList.add(new UserDto(userEntity));
+		}
+		return dtoList;
+	}
+
+	public List<String> updateUserRole(Long idUser, String roleName) {
+		try {
+			UserEntity userEntity = repository.getReferenceById(idUser);	
+			RoleEntity roleEntity = roleRepository.findByName(roleName);
+			userEntity.setRole(roleEntity);
+			repository.save(userEntity);
+			
+			List<String> names = new ArrayList<String>();
+			names.add(userEntity.getFirstName());
+			names.add(roleEntity.getName());
+			return names;
+		}
+		catch (Exception e) {
+			throw new ResourceNotFoundException("User ou Role não encontrados");
 		}
 		
 	}

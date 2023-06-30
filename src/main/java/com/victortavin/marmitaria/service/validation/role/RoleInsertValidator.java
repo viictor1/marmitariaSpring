@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.victortavin.marmitaria.controllers.exceptions.FieldMessage;
-import com.victortavin.marmitaria.dtos.RoleDto;
+import com.victortavin.marmitaria.dtos.RoleInsertDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
@@ -15,7 +16,7 @@ import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class RoleInsertValidator implements ConstraintValidator<RoleInsertValid, RoleDto>{
+public class RoleInsertValidator implements ConstraintValidator<RoleInsertValid, RoleInsertDto>{
 	
 	@Autowired
 	private RoleRepository roleRepository;
@@ -26,7 +27,7 @@ public class RoleInsertValidator implements ConstraintValidator<RoleInsertValid,
 	}
 
 	@Override
-	public boolean isValid(RoleDto roleDto, ConstraintValidatorContext context) {
+	public boolean isValid(RoleInsertDto roleDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 		
 		Optional<RoleEntity> roleOptional = roleRepository.findByName(roleDto.getName());
@@ -34,7 +35,7 @@ public class RoleInsertValidator implements ConstraintValidator<RoleInsertValid,
 		RoleEntity roleEntity = roleOptional.orElseThrow(()-> new ResourceNotFoundException("Role not found: "+roleDto.getName()));
 		
 		if(roleEntity != null) {
-			list.add(new FieldMessage("name", "Este nome já existe"));
+			list.add(new FieldMessage("name", "Já existe uma role com esse nome"));
 		}
 		
 		for (FieldMessage e : list) {
