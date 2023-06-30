@@ -36,6 +36,7 @@ public class RoleService {
 		roleEntity.setName(roleDto.getName());
 	}
 
+	@Transactional
 	public String delete(Long id) {
 		try {
 			RoleEntity roleEntity = repository.getReferenceById(id);
@@ -48,6 +49,7 @@ public class RoleService {
 
 	}
 
+	@Transactional
 	public List<RoleDto> getRoles() {
 		List<RoleDto> dtoList = new ArrayList<RoleDto>();
 		List<RoleEntity> entityList = repository.findAll();
@@ -59,6 +61,7 @@ public class RoleService {
 		return dtoList;
 	}
 	
+	@Transactional
 	public RoleDto getRoleById(Long id) {
 		try {
 			RoleEntity entity = repository.getReferenceById(id);
@@ -68,6 +71,7 @@ public class RoleService {
 		}
 	}
 
+	@Transactional
 	public RoleDto updateRole(Long id, @Valid RoleInsertDto insertDto) {
 		RoleEntity entity = repository.getReferenceById(id);
 		copyRoleInsertDtoToRoleEntity(insertDto, entity);

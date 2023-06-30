@@ -1,6 +1,8 @@
 package com.victortavin.marmitaria.service;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.victortavin.marmitaria.dtos.UserDto;
 import com.victortavin.marmitaria.dtos.UserInsertDto;
 import com.victortavin.marmitaria.dtos.UserUpdateDto;
 import com.victortavin.marmitaria.entities.BalanceEntity;
+import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
@@ -153,6 +156,34 @@ public class UserService implements UserDetailsService{
 		}
 		else {
 			throw new BadCredentialsException("Senha inválida");
+		}
+		
+	}
+
+	@Transactional
+	public List<UserDto> getAllUsers() {
+		List<UserEntity> entityList= repository.findAll();
+		List<UserDto> dtoList = new ArrayList<UserDto>();
+		for (UserEntity userEntity : entityList) {
+			dtoList.add(new UserDto(userEntity));
+		}
+		return dtoList;
+	}
+
+	public List<String> updateUserRole(Long idUser, Long idRole) {
+		try {
+			UserEntity userEntity = repository.getReferenceById(idUser);	
+			RoleEntity roleEntity = roleRepository.getReferenceById(idRole);
+			userEntity.setRole(roleEntity);
+			repository.save(userEntity);
+			
+			List<String> names = new ArrayList<String>();
+			names.add(userEntity.getFirstName());
+			names.add(roleEntity.getName());
+			return names;
+		}
+		catch (Exception e) {
+			throw new ResourceNotFoundException("User ou Role não encontrado");
 		}
 		
 	}
