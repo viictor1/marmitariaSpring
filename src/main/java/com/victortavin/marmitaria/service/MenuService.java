@@ -2,8 +2,10 @@ package com.victortavin.marmitaria.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.dtos.MenuDto;
@@ -64,18 +66,20 @@ public class MenuService {
 
 	@Transactional
 	public String deleteMenu(Long id) {
+		Optional<MenuEntity> menuOptional = repository.findById(id);
+		
+		if(menuOptional.isEmpty()) {
+			throw new ResourceNotFoundException("Menu não encontrado");
+		}
+		
+		
 		try {
 			MenuEntity menuEntity = repository.getReferenceById(id);
-			if(!menuEntity.isActive()) {
-				repository.delete(menuEntity);
-				return menuEntity.getName();				
-			}
-			else {
-				throw new ResourceNotFoundException("Menu está ativo");
-			}
+			repository.delete(menuEntity);
+			return menuEntity.getName();				
 		}
 		catch (Exception e) {
-			throw new ResourceNotFoundException("Menu não encontrado");
+			throw new DataIntegrityViolationException("");
 		}
 	}
 

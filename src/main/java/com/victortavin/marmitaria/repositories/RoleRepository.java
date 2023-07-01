@@ -8,4 +8,5 @@ import com.victortavin.marmitaria.entities.RoleEntity;
 
 public interface RoleRepository extends JpaRepository<RoleEntity, Long>{
 	Optional<RoleEntity> findByName(String name);
+	Optional<RoleEntity> findById(Long id);
 }
