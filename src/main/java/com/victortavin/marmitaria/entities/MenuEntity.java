@@ -28,6 +28,9 @@ public class MenuEntity implements Serializable{
 	
 	private float discount;
 	
+	@Column(nullable = false)
+	private boolean active;
+	
 	public MenuEntity() {
 		super();
 	}
@@ -64,9 +67,17 @@ public class MenuEntity implements Serializable{
 		this.discount = discount;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(discount, id, name, price);
+		return Objects.hash(active, discount, id, name, price);
 	}
 
 	@Override
@@ -78,9 +89,12 @@ public class MenuEntity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		MenuEntity other = (MenuEntity) obj;
-		return Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
+		return active == other.active && Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
 	}
+
+	
 	
 	
  }
