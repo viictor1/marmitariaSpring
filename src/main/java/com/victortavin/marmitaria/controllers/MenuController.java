@@ -88,4 +88,15 @@ public class MenuController {
 		
 		return ResponseEntity.ok().body(menuDto);
 	}
+	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Get All Active Menu", description = "Mostra todos os itens ativos do menu")
+	@GetMapping(value="/active")
+	public ResponseEntity<List<MenuDto>> getAllActiveMenu(){
+		validator.validateAdmin();
+		
+		List<MenuDto> listMenu = new ArrayList<MenuDto>();
+		listMenu = service.findAllActiveMenu();
+		return ResponseEntity.ok().body(listMenu);
+	}
 }

@@ -108,4 +108,19 @@ public class MenuService {
 		
 		return new MenuDto(menuEntity);
 	}
+	
+	@Transactional
+	public List<MenuDto> findAllActiveMenu(){
+		List<MenuEntity> listEntity = new ArrayList<MenuEntity>();
+		List<MenuDto> listDto = new ArrayList<MenuDto>();
+		
+		listEntity = repository.findAllActiveMenu();
+		
+		for (MenuEntity menuEntity : listEntity) {
+			listDto.add(new MenuDto(menuEntity));
+		}
+		
+		return listDto;
+		
+	}
 }
