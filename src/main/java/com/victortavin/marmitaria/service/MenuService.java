@@ -59,4 +59,16 @@ public class MenuService {
 		}
 		
 	}
+
+	@Transactional
+	public String deleteMenu(Long id) {
+		try {
+			MenuEntity menuEntity = repository.getReferenceById(id);
+			repository.delete(menuEntity);
+			return menuEntity.getName();
+		}
+		catch (Exception e) {
+			throw new ResourceNotFoundException("Menu não encontrado");
+		}
+	}
 }

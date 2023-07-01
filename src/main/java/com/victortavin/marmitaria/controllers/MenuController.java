@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,4 +69,11 @@ public class MenuController {
 		return ResponseEntity.ok().body(menuDto);
 	}
 	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Delete Menu By Id", description = "Deleta um item do menu pelo Id")
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<String> deleteMenu(@PathVariable Long id){
+		String name = service.deleteMenu(id);
+		return ResponseEntity.ok().body(name + " foi deletado");
+	}
 }
