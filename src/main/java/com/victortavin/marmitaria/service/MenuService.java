@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.dtos.MenuDto;
 import com.victortavin.marmitaria.dtos.MenuInsertDto;
+import com.victortavin.marmitaria.dtos.MenuUpdateDto;
 import com.victortavin.marmitaria.entities.MenuEntity;
 import com.victortavin.marmitaria.repositories.MenuRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
@@ -70,5 +71,26 @@ public class MenuService {
 		catch (Exception e) {
 			throw new ResourceNotFoundException("Menu não encontrado");
 		}
+	}
+
+	@Transactional
+	public MenuDto update(Long id, MenuUpdateDto menuUpdateDto) {
+		MenuEntity menuEntity = repository.getReferenceById(id);
+		
+		if (menuUpdateDto.getName() != null) {
+			menuEntity.setName(menuUpdateDto.getName());
+		}
+		
+		if (menuUpdateDto.getPrice() != 0) {
+			menuEntity.setPrice(menuUpdateDto.getPrice());
+		}
+		
+		if (menuUpdateDto.getDiscount() != 0) {
+			menuEntity.setDiscount(menuUpdateDto.getDiscount());
+		}
+		
+		menuEntity = repository.save(menuEntity);
+		
+		return new MenuDto(menuEntity);
 	}
 }

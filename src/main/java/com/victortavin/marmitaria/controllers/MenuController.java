@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.MenuDto;
 import com.victortavin.marmitaria.dtos.MenuInsertDto;
+import com.victortavin.marmitaria.dtos.MenuUpdateDto;
 import com.victortavin.marmitaria.service.MenuService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 
@@ -75,5 +77,15 @@ public class MenuController {
 	public ResponseEntity<String> deleteMenu(@PathVariable Long id){
 		String name = service.deleteMenu(id);
 		return ResponseEntity.ok().body(name + " foi deletado");
+	}
+	
+	@SecurityRequirement(name = "bearerAuth")
+	@Tag(name = "Update Menu", description = 
+	"Altera o usuário, se não enviar um valor novo para algum atributo ele manterá o antigo")
+	@PutMapping(value = "/update/{id}")
+	public ResponseEntity<MenuDto> update(@RequestBody MenuUpdateDto menuUpdateDto, @PathVariable Long id){
+		MenuDto menuDto = service.update(id, menuUpdateDto);
+		
+		return ResponseEntity.ok().body(menuDto);
 	}
 }
