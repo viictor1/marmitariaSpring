@@ -19,7 +19,16 @@ public class MenuDto implements Serializable {
 	
 	private boolean active;
 
+	private String description;
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public MenuDto() {
 		super();
 	}
@@ -30,11 +39,12 @@ public class MenuDto implements Serializable {
 		price = menuEntity.getPrice();
 		discount = menuEntity.getDiscount();
 		active = menuEntity.isActive();
+		description = menuEntity.getDescription();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(active, discount, id, name, price);
+		return Objects.hash(active, description, discount, id, name, price);
 	}
 
 	@Override
@@ -46,7 +56,8 @@ public class MenuDto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		MenuDto other = (MenuDto) obj;
-		return active == other.active && Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount)
+		return active == other.active && Objects.equals(description, other.description)
+				&& Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
 	}

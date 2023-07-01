@@ -38,6 +38,7 @@ public class MenuService {
 		menuEntity.setPrice(menuDto.getPrice());
 		menuEntity.setDiscount(menuDto.getDiscount());
 		menuEntity.setActive(false);
+		menuEntity.setDescription(menuDto.getDescription());
 	}
 	
 	@Transactional
@@ -97,6 +98,10 @@ public class MenuService {
 		
 		if (menuUpdateDto.getDiscount() != 0) {
 			menuEntity.setDiscount(menuUpdateDto.getDiscount());
+		}
+		
+		if (menuUpdateDto.getDescription() != null) {
+			menuEntity.setDescription(menuUpdateDto.getDescription());
 		}
 		
 		menuEntity = repository.save(menuEntity);
