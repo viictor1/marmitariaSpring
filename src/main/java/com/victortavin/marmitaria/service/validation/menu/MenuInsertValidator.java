@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.victortavin.marmitaria.controllers.exceptions.FieldMessage;
-import com.victortavin.marmitaria.dtos.MenuDto;
+import com.victortavin.marmitaria.dtos.MenuInsertDto;
 import com.victortavin.marmitaria.entities.MenuEntity;
 import com.victortavin.marmitaria.repositories.MenuRepository;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class MenuInsertValidator implements ConstraintValidator<MenuInsertValid, MenuDto>{
+public class MenuInsertValidator implements ConstraintValidator<MenuInsertValid, MenuInsertDto>{
 
 	@Autowired
 	private MenuRepository menuRepository;
@@ -24,7 +24,7 @@ public class MenuInsertValidator implements ConstraintValidator<MenuInsertValid,
 	}
 	
 	@Override
-	public boolean isValid(MenuDto menuDto, ConstraintValidatorContext context) {
+	public boolean isValid(MenuInsertDto menuDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 		
 		MenuEntity menuEntity = menuRepository.findByName(menuDto.getName());

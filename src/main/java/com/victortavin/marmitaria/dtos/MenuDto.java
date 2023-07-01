@@ -4,22 +4,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.victortavin.marmitaria.entities.MenuEntity;
-import com.victortavin.marmitaria.service.validation.menu.MenuInsertValid;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-
-@MenuInsertValid
 public class MenuDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	
-	@NotBlank(message = "Campo name é obrigatório")
 	private String name;
-	
-	@Positive(message = "Preço deve ser maior que 0")
+
 	private float price;
 	
 	private float discount;
