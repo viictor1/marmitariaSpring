@@ -35,6 +35,7 @@ public class MenuService {
 		menuEntity.setName(menuDto.getName());
 		menuEntity.setPrice(menuDto.getPrice());
 		menuEntity.setDiscount(menuDto.getDiscount());
+		menuEntity.setActive(false);
 	}
 	
 	@Transactional
@@ -65,8 +66,13 @@ public class MenuService {
 	public String deleteMenu(Long id) {
 		try {
 			MenuEntity menuEntity = repository.getReferenceById(id);
-			repository.delete(menuEntity);
-			return menuEntity.getName();
+			if(!menuEntity.isActive()) {
+				repository.delete(menuEntity);
+				return menuEntity.getName();				
+			}
+			else {
+				throw new ResourceNotFoundException("Menu está ativo");
+			}
 		}
 		catch (Exception e) {
 			throw new ResourceNotFoundException("Menu não encontrado");
