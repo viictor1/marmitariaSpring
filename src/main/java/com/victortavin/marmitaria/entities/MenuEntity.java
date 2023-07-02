@@ -28,9 +28,25 @@ public class MenuEntity implements Serializable{
 	
 	private float discount;
 	
+	@Column(nullable = false)
+	private boolean active;
+	
+	@Column(nullable = false)
+	private String description;
+	
 	public MenuEntity() {
 		super();
+	}	
+
+	public String getDescription() {
+		return description;
 	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -64,10 +80,21 @@ public class MenuEntity implements Serializable{
 		this.discount = discount;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(discount, id, name, price);
+		return Objects.hash(active, description, discount, id, name, price);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -78,9 +105,10 @@ public class MenuEntity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		MenuEntity other = (MenuEntity) obj;
-		return Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
-	}
-	
+		return active == other.active && Objects.equals(description, other.description)
+				&& Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
+	}	
 	
  }

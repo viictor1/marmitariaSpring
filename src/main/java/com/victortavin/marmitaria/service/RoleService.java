@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.victortavin.marmitaria.dtos.RoleDto;
@@ -43,16 +44,22 @@ public class RoleService {
 	}
 
 	@Transactional
-	public String delete(Long id) {
+	public String delete(Long id){
+		Optional<RoleEntity> roleOptional = repository.findById(id);
+
+		if(roleOptional.isEmpty()) {
+			throw new ResourceNotFoundException("Role não encontrada");
+		}
+
 		try {
 			RoleEntity roleEntity = repository.getReferenceById(id);
 			repository.delete(roleEntity);
-			return roleEntity.getName();
+			return roleEntity.getName();			
 		}
 		catch (Exception e) {
-			throw new ResourceNotFoundException("Role não encontrada ou está em uso");
+			throw new DataIntegrityViolationException("");
 		}
-
+		
 	}
 
 	@Transactional

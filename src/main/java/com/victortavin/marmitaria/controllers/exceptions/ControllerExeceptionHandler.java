@@ -2,6 +2,7 @@ package com.victortavin.marmitaria.controllers.exceptions;
 
 import java.time.Instant;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,6 +35,18 @@ public class ControllerExeceptionHandler {
         err.setPath(request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> foreignKeyViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.CONFLICT.value());
+        err.setError("Foreign Key Violation");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 	
 

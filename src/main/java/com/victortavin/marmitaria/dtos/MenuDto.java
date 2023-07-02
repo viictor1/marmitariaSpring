@@ -4,42 +4,29 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.victortavin.marmitaria.entities.MenuEntity;
-import com.victortavin.marmitaria.service.validation.menu.MenuInsertValid;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-
-@MenuInsertValid
 public class MenuDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	
-	@NotBlank(message = "Campo name é obrigatório")
 	private String name;
-	
-	@Positive(message = "Preço deve ser maior que 0")
+
 	private float price;
 	
 	private float discount;
+	
+	private boolean active;
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(discount, id, name, price);
+	private String description;
+	
+	public String getDescription() {
+		return description;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MenuDto other = (MenuDto) obj;
-		return Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public MenuDto() {
@@ -51,6 +38,36 @@ public class MenuDto implements Serializable {
 		name = menuEntity.getName();
 		price = menuEntity.getPrice();
 		discount = menuEntity.getDiscount();
+		active = menuEntity.isActive();
+		description = menuEntity.getDescription();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(active, description, discount, id, name, price);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MenuDto other = (MenuDto) obj;
+		return active == other.active && Objects.equals(description, other.description)
+				&& Float.floatToIntBits(discount) == Float.floatToIntBits(other.discount)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public Long getId() {
