@@ -110,7 +110,7 @@ public class UserService implements UserDetailsService{
 	
 	}
 
-	@Transactional
+	/*@Transactional
 	public UserDto update(UserDto userDto, UserUpdateDto updateDto) {
 		if(passwordEncoder.matches(updateDto.getOldPassword(), userDto.getPassword()))
 		{
@@ -121,7 +121,7 @@ public class UserService implements UserDetailsService{
 		else {
 			throw new BadCredentialsException("Senha inválida");
 		}
-	}
+	}*/
 	
 	public UserEntity copyUpdateDtoToEntity(String email, UserUpdateDto updateDto) {
 		UserEntity user = repository.findByEmail(email);
@@ -145,7 +145,7 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
-	@Transactional
+	/*@Transactional
 	public UserDto findByEmailUser(String email) {
 		Optional<UserEntity> userOptional = Optional.of(repository.findByEmail(email));
 		
@@ -164,7 +164,7 @@ public class UserService implements UserDetailsService{
 			throw new BadCredentialsException("Senha inválida");
 		}
 		
-	}
+	}*/
 
 	@Transactional
 	public List<UserDto> getAllUsers() {
