@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.dtos.RoleInsertDto;
+import com.victortavin.marmitaria.dtos.role.RoleDto;
+import com.victortavin.marmitaria.dtos.role.RoleInsertDto;
 import com.victortavin.marmitaria.service.RoleService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 

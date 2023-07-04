@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victortavin.marmitaria.dtos.TokenDto;
-import com.victortavin.marmitaria.dtos.UserDeleteDto;
-import com.victortavin.marmitaria.dtos.UserDto;
-import com.victortavin.marmitaria.dtos.UserInsertDto;
-import com.victortavin.marmitaria.dtos.UserLoginDto;
-import com.victortavin.marmitaria.dtos.UserRoleUpdateDto;
-import com.victortavin.marmitaria.dtos.UserUpdateDto;
+import com.victortavin.marmitaria.dtos.user.UserDeleteDto;
+import com.victortavin.marmitaria.dtos.user.UserDto;
+import com.victortavin.marmitaria.dtos.user.UserInsertDto;
+import com.victortavin.marmitaria.dtos.user.UserLoginDto;
+import com.victortavin.marmitaria.dtos.user.UserRoleUpdateDto;
+import com.victortavin.marmitaria.dtos.user.UserUpdateDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.service.MessageService;
 import com.victortavin.marmitaria.service.TokenService;

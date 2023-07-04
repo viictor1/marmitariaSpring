@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.victortavin.marmitaria.controllers.exceptions.FieldMessage;
-import com.victortavin.marmitaria.dtos.MenuInsertDto;
+import com.victortavin.marmitaria.dtos.menu.MenuInsertDto;
 import com.victortavin.marmitaria.entities.MenuEntity;
 import com.victortavin.marmitaria.repositories.MenuRepository;
 

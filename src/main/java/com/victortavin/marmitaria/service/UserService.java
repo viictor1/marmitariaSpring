@@ -14,16 +14,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.victortavin.marmitaria.dtos.BalanceDto;
-import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.dtos.UserDto;
-import com.victortavin.marmitaria.dtos.UserInsertDto;
-import com.victortavin.marmitaria.dtos.UserUpdateDto;
+import com.victortavin.marmitaria.dtos.balance.BalanceDto;
+import com.victortavin.marmitaria.dtos.role.RoleDto;
+import com.victortavin.marmitaria.dtos.user.UserDto;
+import com.victortavin.marmitaria.dtos.user.UserInsertDto;
+import com.victortavin.marmitaria.dtos.user.UserUpdateDto;
 import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
+import com.victortavin.marmitaria.service.balance.NewBalanceService;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -41,7 +42,7 @@ public class UserService implements UserDetailsService{
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private BalanceService balanceService;
+	private NewBalanceService newBalanceService; 
 	
 	@Transactional
 	public UserDto addUser(UserInsertDto userInsertDto) {
@@ -101,7 +102,7 @@ public class UserService implements UserDetailsService{
 	}
 	
 	private void addBalanceInUser(UserEntity userEntity) {
-		BalanceDto balanceDto = balanceService.newBalance();
+		BalanceDto balanceDto = newBalanceService.newBalance();
 		
 		BalanceEntity balanceEntity = new BalanceEntity(balanceDto.getId(), balanceDto.getValue());
 		
@@ -110,7 +111,7 @@ public class UserService implements UserDetailsService{
 	
 	}
 
-	/*@Transactional
+	@Transactional
 	public UserDto update(UserDto userDto, UserUpdateDto updateDto) {
 		if(passwordEncoder.matches(updateDto.getOldPassword(), userDto.getPassword()))
 		{
@@ -121,7 +122,7 @@ public class UserService implements UserDetailsService{
 		else {
 			throw new BadCredentialsException("Senha inválida");
 		}
-	}*/
+	}
 	
 	public UserEntity copyUpdateDtoToEntity(String email, UserUpdateDto updateDto) {
 		UserEntity user = repository.findByEmail(email);
@@ -145,7 +146,7 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
-	/*@Transactional
+	@Transactional
 	public UserDto findByEmailUser(String email) {
 		Optional<UserEntity> userOptional = Optional.of(repository.findByEmail(email));
 		
@@ -164,7 +165,7 @@ public class UserService implements UserDetailsService{
 			throw new BadCredentialsException("Senha inválida");
 		}
 		
-	}*/
+	}
 
 	@Transactional
 	public List<UserDto> getAllUsers() {

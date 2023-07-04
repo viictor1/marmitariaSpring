@@ -1,32 +1,25 @@
-package com.victortavin.marmitaria.service;
+package com.victortavin.marmitaria.service.balance;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.victortavin.marmitaria.dtos.Add_BalanceDto;
-import com.victortavin.marmitaria.dtos.BalanceDto;
-import com.victortavin.marmitaria.dtos.UserBalanceDto;
+import com.victortavin.marmitaria.dtos.balance.Add_BalanceDto;
+import com.victortavin.marmitaria.dtos.balance.BalanceDto;
+import com.victortavin.marmitaria.dtos.user.UserBalanceDto;
 import com.victortavin.marmitaria.entities.Add_BalanceEntity;
 import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.AddBalanceRepository;
-import com.victortavin.marmitaria.repositories.BalanceRepository;
 import com.victortavin.marmitaria.repositories.UserRepository;
+import com.victortavin.marmitaria.service.MessageService;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 @Service
-public class BalanceService {
+public class ApprovingBalanceService {
 	
-	@Autowired
-	private MessageService messageService;
-
-	@Autowired
-	private BalanceRepository balanceRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -34,26 +27,11 @@ public class BalanceService {
 	@Autowired
 	private AddBalanceRepository addBalanceRepository;
 
+	@Autowired
+	private MessageService messageService;
 	
-
-	public BalanceDto newBalance() {
-		BalanceEntity balanceEntity = new BalanceEntity(null, 0);
-
-		balanceEntity = balanceRepository.save(balanceEntity);
-		
-
-		return new BalanceDto(balanceEntity);
-	}
-
-	@Transactional(readOnly = true)
-	public Page<UserBalanceDto> findAllPage(Pageable pageable) {
-		Page<UserEntity> list = userRepository.findAll(pageable);
-
-		return list.map(x -> new UserBalanceDto(x));
-	}
-
 	@Transactional
-	public BalanceDto aprovedBalance(UserBalanceDto userBalanceDto) {
+	public BalanceDto approvingBalance(UserBalanceDto userBalanceDto) {
 		
 		UserEntity userEntity = addBalanceisAproved(userBalanceDto);
 		
@@ -64,10 +42,9 @@ public class BalanceService {
 		return new BalanceDto(balanceEntity);
 	}
 	
+	
 	private UserEntity addBalanceisAproved(UserBalanceDto userBalanceDto) {
 		UserEntity userEntity = findByIdUser(userBalanceDto.getId());
-		
-		float balance = 0;
 		
 		userEntity.getAddBalance().clear();
 		
@@ -106,5 +83,4 @@ public class BalanceService {
 		addBalanceEntity.setApproved(add_BalanceDto.isApproved());
 	
 	}
-
 }

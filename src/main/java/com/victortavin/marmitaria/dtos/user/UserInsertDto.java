@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.dtos;
+package com.victortavin.marmitaria.dtos.user;
 
 import com.victortavin.marmitaria.service.validation.user.UserInsertValid;
 

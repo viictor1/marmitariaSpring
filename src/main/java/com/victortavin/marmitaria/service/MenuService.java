@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.victortavin.marmitaria.dtos.MenuDto;
-import com.victortavin.marmitaria.dtos.MenuInsertDto;
-import com.victortavin.marmitaria.dtos.MenuUpdateDto;
+import com.victortavin.marmitaria.dtos.menu.MenuDto;
+import com.victortavin.marmitaria.dtos.menu.MenuInsertDto;
+import com.victortavin.marmitaria.dtos.menu.MenuUpdateDto;
 import com.victortavin.marmitaria.entities.MenuEntity;
 import com.victortavin.marmitaria.repositories.MenuRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;

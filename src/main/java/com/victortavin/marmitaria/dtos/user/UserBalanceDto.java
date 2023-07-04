@@ -1,9 +1,10 @@
-package com.victortavin.marmitaria.dtos;
+package com.victortavin.marmitaria.dtos.user;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.victortavin.marmitaria.dtos.balance.Add_BalanceDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 
 public class UserBalanceDto implements Serializable{

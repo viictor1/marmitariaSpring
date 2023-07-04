@@ -1,13 +1,13 @@
-package com.victortavin.marmitaria.service;
+package com.victortavin.marmitaria.service.demand;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.victortavin.marmitaria.dtos.DemandInsertDto;
-import com.victortavin.marmitaria.dtos.DemandsBto;
-import com.victortavin.marmitaria.dtos.MenuPedidoDto;
+import com.victortavin.marmitaria.dtos.demand.DemandDto;
+import com.victortavin.marmitaria.dtos.demand.DemandInsertDto;
+import com.victortavin.marmitaria.dtos.menu.MenuPedidoDto;
 import com.victortavin.marmitaria.entities.DemandEntity;
 import com.victortavin.marmitaria.entities.MenuEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
@@ -15,7 +15,7 @@ import com.victortavin.marmitaria.repositories.DemandRepository;
 import com.victortavin.marmitaria.repositories.MenuRepository;
 
 @Service
-public class DemandService {
+public class NewDemandService {
 	
 	@Autowired
 	private MenuRepository menuRepository;
@@ -23,7 +23,7 @@ public class DemandService {
 	@Autowired
 	private DemandRepository demandRepository;
 	
-	public DemandsBto newDemand(DemandInsertDto demandInsertDto) {
+	public DemandDto newDemand(DemandInsertDto demandInsertDto) {
 		DemandEntity entity = new DemandEntity();
 		
 
@@ -52,7 +52,7 @@ public class DemandService {
 		
 		entity = demandRepository.save(entity);
 	
-		return new DemandsBto(entity);
+		return new DemandDto(entity);
 	}
 	
 	private UserEntity recuperandoUser() {

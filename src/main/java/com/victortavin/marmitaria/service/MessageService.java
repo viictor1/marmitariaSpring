@@ -15,9 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.victortavin.marmitaria.dtos.MessageDto;
-import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.dtos.UserDto;
+import com.victortavin.marmitaria.dtos.message.MessageDto;
+import com.victortavin.marmitaria.dtos.role.RoleDto;
+import com.victortavin.marmitaria.dtos.user.UserDto;
 import com.victortavin.marmitaria.entities.MessageEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;

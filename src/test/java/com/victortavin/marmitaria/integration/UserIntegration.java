@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victortavin.marmitaria.dtos.UserInsertDto;
+import com.victortavin.marmitaria.dtos.user.UserInsertDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;

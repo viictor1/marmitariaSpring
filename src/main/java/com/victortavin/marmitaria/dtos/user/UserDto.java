@@ -1,10 +1,11 @@
-package com.victortavin.marmitaria.dtos;
+package com.victortavin.marmitaria.dtos.user;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.victortavin.marmitaria.dtos.balance.Add_BalanceDto;
 import com.victortavin.marmitaria.entities.BalanceEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
@@ -31,19 +32,22 @@ public class UserDto implements Serializable{
 	@Email(message = "Esse campo precisa ser um Email")
 	private String email;
 	
+	private String password;
+	
 	private RoleEntity role;
 	
 	private BalanceEntity balance;
 	
 	Set<Add_BalanceDto> addBalance = new HashSet<>();
 
-	public UserDto(Long id, String firstName,String lastName, String cpf,String email, RoleEntity role, BalanceEntity balance) {
+	public UserDto(Long id, String firstName,String lastName, String cpf,String email, String password, RoleEntity role, BalanceEntity balance) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.cpf = cpf;
 		this.email = email;
+		this.password = password;
 		this.role = role;
 		this.balance = balance;
 	}
@@ -130,7 +134,14 @@ public class UserDto implements Serializable{
 	public void setAddBalance(Set<Add_BalanceDto> addBalance) {
 		this.addBalance = addBalance;
 	}
-	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	@Override
 	public int hashCode() {

@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.dtos;
+package com.victortavin.marmitaria.dtos.message;
 
 import java.io.Serializable;
 import java.time.Instant;

@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.dtos;
+package com.victortavin.marmitaria.dtos.menu;
 
 import java.util.Objects;
 

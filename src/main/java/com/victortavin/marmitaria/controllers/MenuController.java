@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.victortavin.marmitaria.dtos.MenuDto;
-import com.victortavin.marmitaria.dtos.MenuInsertDto;
-import com.victortavin.marmitaria.dtos.MenuUpdateDto;
+import com.victortavin.marmitaria.dtos.menu.MenuDto;
+import com.victortavin.marmitaria.dtos.menu.MenuInsertDto;
+import com.victortavin.marmitaria.dtos.menu.MenuUpdateDto;
 import com.victortavin.marmitaria.service.MenuService;
 import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
 

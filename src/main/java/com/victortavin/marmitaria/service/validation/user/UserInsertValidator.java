@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.victortavin.marmitaria.controllers.exceptions.FieldMessage;
-import com.victortavin.marmitaria.dtos.UserInsertDto;
+import com.victortavin.marmitaria.dtos.user.UserInsertDto;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.repositories.UserRepository;
 

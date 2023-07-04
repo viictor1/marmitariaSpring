@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.controllers;
+package com.victortavin.marmitaria.controllers.demand;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.victortavin.marmitaria.dtos.DemandInsertDto;
-import com.victortavin.marmitaria.dtos.DemandsBto;
-import com.victortavin.marmitaria.service.DemandService;
+import com.victortavin.marmitaria.dtos.demand.DemandDto;
+import com.victortavin.marmitaria.dtos.demand.DemandInsertDto;
+import com.victortavin.marmitaria.service.demand.NewDemandService;
 
 
 
 @RestController
 @RequestMapping(value = "/demand")
-public class DemandController {
+public class NewDemandController {
 	
 	@Autowired
-	private DemandService service;
+	private NewDemandService service;
 	
 	@PostMapping
-	public ResponseEntity<DemandsBto> newDemand(@RequestBody DemandInsertDto demandInsertDto){
-		DemandsBto demand = service.newDemand(demandInsertDto);
+	public ResponseEntity<DemandDto> newDemand(@RequestBody DemandInsertDto demandInsertDto){
+		DemandDto demand = service.newDemand(demandInsertDto);
 		
 		return ResponseEntity.ok().body(demand);
 		

@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victortavin.marmitaria.dtos.RoleDto;
+import com.victortavin.marmitaria.dtos.role.RoleDto;
 
 @SpringBootTest
 @AutoConfigureMockMvc

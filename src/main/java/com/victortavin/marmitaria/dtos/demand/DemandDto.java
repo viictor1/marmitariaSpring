@@ -1,13 +1,14 @@
-package com.victortavin.marmitaria.dtos;
+package com.victortavin.marmitaria.dtos.demand;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.victortavin.marmitaria.dtos.menu.MenuDto;
+import com.victortavin.marmitaria.dtos.user.UserDto;
 import com.victortavin.marmitaria.entities.DemandEntity;
-import com.victortavin.marmitaria.entities.UserEntity;
 
-public class DemandsBto {
+public class DemandDto {
 	
 	private Long id;
 	private Double price;
@@ -17,11 +18,11 @@ public class DemandsBto {
 	private UserDto userEntity; 
 	private Set<MenuDto> menu = new HashSet<>();
 	
-	public DemandsBto() {
+	public DemandDto() {
 		
 	}
 	
-	public DemandsBto(Long id, Double price, String road, int number, Boolean delivered, UserDto userEntity) {
+	public DemandDto(Long id, Double price, String road, int number, Boolean delivered, UserDto userEntity) {
 		super();
 		this.id = id;
 		this.price = price;
@@ -31,7 +32,7 @@ public class DemandsBto {
 		this.userEntity = userEntity;
 	}
 	
-	public DemandsBto(DemandEntity d) {
+	public DemandDto(DemandEntity d) {
 		this.id = d.getId();
 		this.price = d.getPrice();
 		this.road = d.getRoad();
@@ -110,7 +111,7 @@ public class DemandsBto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DemandsBto other = (DemandsBto) obj;
+		DemandDto other = (DemandDto) obj;
 		return Objects.equals(id, other.id);
 	}
 

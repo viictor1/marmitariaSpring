@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.victortavin.marmitaria.dtos.RoleDto;
-import com.victortavin.marmitaria.dtos.RoleInsertDto;
+import com.victortavin.marmitaria.dtos.role.RoleDto;
+import com.victortavin.marmitaria.dtos.role.RoleInsertDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;

@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.controllers;
+package com.victortavin.marmitaria.controllers.balance;
 
 import java.net.URI;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.victortavin.marmitaria.dtos.Add_BalanceDto;
-import com.victortavin.marmitaria.service.AddBalanceService;
+import com.victortavin.marmitaria.dtos.balance.Add_BalanceDto;
 import com.victortavin.marmitaria.service.MessageService;
+import com.victortavin.marmitaria.service.balance.AddBalanceService;
 
 import jakarta.validation.Valid;
 

@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.victortavin.marmitaria.controllers.exceptions.FieldMessage;
-import com.victortavin.marmitaria.dtos.RoleInsertDto;
+import com.victortavin.marmitaria.dtos.role.RoleInsertDto;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.repositories.RoleRepository;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
