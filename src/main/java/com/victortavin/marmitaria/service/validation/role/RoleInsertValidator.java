@@ -32,7 +32,7 @@ public class RoleInsertValidator implements ConstraintValidator<RoleInsertValid,
 		
 		Optional<RoleEntity> roleOptional = roleRepository.findByName(roleDto.getName());
 		
-		RoleEntity roleEntity = roleOptional.orElseThrow(()-> new ResourceNotFoundException("Role not found: "+roleDto.getName()));
+		RoleEntity roleEntity = roleOptional.orElseThrow(()-> new ResourceNotFoundException("Role not found: "+ roleDto.getName()));
 		
 		if(roleEntity != null) {
 			list.add(new FieldMessage("name", "Já existe uma role com esse nome"));

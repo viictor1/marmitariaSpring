@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.victortavin.marmitaria.dtos.user.UserBalanceDto;
 import com.victortavin.marmitaria.service.balance.FindAllPageBalanceService;
-import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
+import com.victortavin.marmitaria.service.user.validation.UserAuthorityValidator;
 
 @RestController
 @RequestMapping(value = "/balance")

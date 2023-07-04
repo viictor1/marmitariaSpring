@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.catalina.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.victortavin.marmitaria.dtos.message.MessageDto;
-import com.victortavin.marmitaria.dtos.role.RoleDto;
-import com.victortavin.marmitaria.dtos.user.UserDto;
 import com.victortavin.marmitaria.entities.MessageEntity;
 import com.victortavin.marmitaria.entities.RoleEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
@@ -89,7 +87,6 @@ public class MessageService {
 	
 	public void addSaldoBanco(float saldo) {
 		UserEntity userEntity = recuperandoEmail();
-		String email = userEntity.getEmail();
 		
 		Optional<RoleEntity> roleOptional = roleRepository.findByName("Bank");
 		

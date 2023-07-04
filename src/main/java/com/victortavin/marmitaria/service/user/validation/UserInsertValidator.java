@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.service.validation.user;
+package com.victortavin.marmitaria.service.user.validation;
 
 import java.util.ArrayList;
 import java.util.List;

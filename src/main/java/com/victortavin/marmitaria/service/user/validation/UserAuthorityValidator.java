@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.service.validation.user;
+package com.victortavin.marmitaria.service.user.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

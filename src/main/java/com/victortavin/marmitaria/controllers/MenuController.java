@@ -20,7 +20,7 @@ import com.victortavin.marmitaria.dtos.menu.MenuDto;
 import com.victortavin.marmitaria.dtos.menu.MenuInsertDto;
 import com.victortavin.marmitaria.dtos.menu.MenuUpdateDto;
 import com.victortavin.marmitaria.service.MenuService;
-import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
+import com.victortavin.marmitaria.service.user.validation.UserAuthorityValidator;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

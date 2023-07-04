@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.victortavin.marmitaria.dtos.role.RoleDto;
 import com.victortavin.marmitaria.dtos.role.RoleInsertDto;
 import com.victortavin.marmitaria.service.RoleService;
-import com.victortavin.marmitaria.service.validation.user.UserAuthorityValidator;
+import com.victortavin.marmitaria.service.user.validation.UserAuthorityValidator;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

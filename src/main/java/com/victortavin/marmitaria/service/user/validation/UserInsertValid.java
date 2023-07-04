@@ -1,4 +1,4 @@
-package com.victortavin.marmitaria.service.validation.user;
+package com.victortavin.marmitaria.service.user.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
