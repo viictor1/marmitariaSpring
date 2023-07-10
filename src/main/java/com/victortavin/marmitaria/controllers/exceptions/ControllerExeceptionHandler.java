@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.victortavin.marmitaria.service.exceptions.ForbiddenException;
+import com.victortavin.marmitaria.service.exceptions.InsufficientBalanceException;
 import com.victortavin.marmitaria.service.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -105,5 +106,18 @@ public class ControllerExeceptionHandler {
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(validationError);
 	}	
+	
+	@ExceptionHandler(InsufficientBalanceException.class)
+	public ResponseEntity<StandardError> insufficientBalance (InsufficientBalanceException e, HttpServletRequest request){
+StandardError err = new StandardError();
+		
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.PAYMENT_REQUIRED.value());
+		err.setError("Insufficient Balance");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		
+		return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).body(err);
+	}
 	
 }

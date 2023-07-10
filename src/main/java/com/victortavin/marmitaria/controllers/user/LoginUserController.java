@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.victortavin.marmitaria.dtos.TokenDto;
 import com.victortavin.marmitaria.dtos.user.UserLoginDto;
+import com.victortavin.marmitaria.entities.MessageEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
+import com.victortavin.marmitaria.service.MessageService;
 import com.victortavin.marmitaria.service.TokenService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,6 +30,9 @@ public class LoginUserController {
 	@Autowired
 	private TokenService tokenService;
 	
+	@Autowired
+	private MessageService message;
+	
 	@Tag(name = "Login", description = "Fazer login com um usuário existente")
 	@PostMapping(value = "/login")
 	public ResponseEntity<TokenDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto, HttpServletRequest request){
@@ -37,8 +42,8 @@ public class LoginUserController {
 		
 		String token = tokenService.generateToken((UserEntity) authentication.getPrincipal());
 		
-		//String disposito = message.informacoesDoDispositivo(request);
-		//message.userLogin(userLoginDto.getEmail(), disposito);
+		String disposito = message.informacoesDoDispositivo(request);
+		message.userLogin(userLoginDto.getEmail(), disposito);
 		
 		return ResponseEntity.ok().body(new TokenDto(token));
 	}

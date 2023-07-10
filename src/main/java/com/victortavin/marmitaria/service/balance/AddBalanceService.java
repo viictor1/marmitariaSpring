@@ -24,6 +24,7 @@ public class AddBalanceService {
 		addBalanceEntity = addBalanceRepository.save(addBalanceEntity);
 		
 		return new Add_BalanceDto(addBalanceEntity); 
+
 		
 	}
 	
