@@ -51,50 +51,10 @@ public class TokenFilter extends OncePerRequestFilter{
 		
 		var token = recoverToken(request);
 		
-		
-		UserEntity user = null;
-		   if (token == null) {
-			   boolean isPublic = false;
-			   for (String path : publicPaths) {
-				   if(request.getRequestURI().startsWith(path)) {
-					   isPublic = true;
-				   }
-			   }
-			
-			   if(isPublic == false) {
-				   
-				   	ObjectMapper mapper = mapperBuilder.build();				   
-			        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
-			        String json = mapper.writeValueAsString(erro);
-			        
-			        response.setContentType("application/json");
-			        response.setCharacterEncoding("UTF-8");
-			        response.setStatus(403);
-			        response.getWriter().write(json);
-			        
-			        return;
-			   }
+		checkIfAccesDeniedAndSetError(token, request, response);
 			   
-		    }
-		
-			if(token != null) {
-				String subjetc = tokenService.getSubject(token);
-	
-				user = userRepository.findByEmail(subjetc);
-				
-				if(user != null) {
-					var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-					
-					SecurityContextHolder.getContext().setAuthentication(authentication);
-				}
-				UserEntity userEntity = userRepository.findByEmail(subjetc);
-				
-				var authentication = new UsernamePasswordAuthenticationToken(userEntity, userEntity.getId(), userEntity.getAuthorities());
-				 SecurityContextHolder.getContext().setAuthentication(authentication);
-				
-			}
-	   
-	   
+		verifyNullTokenAndAuthenticateUser(token);
+
 		filterChain.doFilter(request, response);
 		
 	}
@@ -107,6 +67,55 @@ public class TokenFilter extends OncePerRequestFilter{
 			return authorizationHeader.replace("Bearer ", "");
 		}
 		return null;
+	}
+	
+	private boolean isRoutePublic(HttpServletRequest request) {
+		boolean isPublic = false;
+		   for (String path : publicPaths) {
+			   if(request.getRequestURI().startsWith(path)) {
+				   isPublic = true;
+			   }
+		   }
+		   
+		return isPublic;   
+	}
+	
+	private void setAccesDeniedResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ObjectMapper mapper = mapperBuilder.build();				   
+        StandardError erro = new StandardError(Instant.now(), 403, "Acces Denied", "Usuário não está autenticado", request.getRequestURI());
+        String json = mapper.writeValueAsString(erro);
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(403);
+        response.getWriter().write(json);
+	}
+	
+	private void authenticateUserFromToken(String token) {
+		String subjetc = tokenService.getSubject(token);
+
+		UserEntity user = userRepository.findByEmail(subjetc);
+		
+		if(user != null) {
+			var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+			
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
+	}
+	
+	private void checkIfAccesDeniedAndSetError(String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		boolean isRouteNotPublicAndTokenNull = (!isRoutePublic(request) && token == null);
+		
+	    if(isRouteNotPublicAndTokenNull) {
+		    setAccesDeniedResponse(request, response);  
+	        return;
+	    }
+	}
+	
+	private void verifyNullTokenAndAuthenticateUser(String token) {
+		if(token != null) {
+			authenticateUserFromToken(token);
+		}
 	}
 
 }
