@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.victortavin.marmitaria.dtos.TokenDto;
 import com.victortavin.marmitaria.dtos.user.UserLoginDto;
-import com.victortavin.marmitaria.entities.MessageEntity;
 import com.victortavin.marmitaria.entities.UserEntity;
 import com.victortavin.marmitaria.service.MessageService;
 import com.victortavin.marmitaria.service.TokenService;

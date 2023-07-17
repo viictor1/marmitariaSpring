@@ -87,10 +87,6 @@ public class TokenFilter extends OncePerRequestFilter{
 					
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
-				UserEntity userEntity = userRepository.findByEmail(subjetc);
-				
-				var authentication = new UsernamePasswordAuthenticationToken(userEntity, userEntity.getId(), userEntity.getAuthorities());
-				 SecurityContextHolder.getContext().setAuthentication(authentication);
 				
 			}
 	   
